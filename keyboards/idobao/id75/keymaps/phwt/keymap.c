@@ -16,60 +16,76 @@
 #include QMK_KEYBOARD_H
 
 // Defines the keycodes used by our macros in process_record_user
-enum custom_keycodes { M_CONST = SAFE_RANGE, M_VAR, M_DOTNET };
+enum custom_keycodes {
+    C_CONST = SAFE_RANGE, //
+    C_VAR,
+    C_DOTNET,
+
+    M_TERM,
+    M_VIM
+};
+
+enum layers {
+    _CMK, // Colemak DH Matrix
+    _QTY, // QWERTY
+    _FN,  // Functions
+    _MSE  // Mouse
+};
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = { // clang-format off
-    [0] = LAYOUT_ortho_5x15(
-        KC_GESC, KC_1, KC_2, KC_3, KC_4, KC_5, KC_6, KC_7, KC_8, KC_9, KC_0, KC_MINS, KC_EQL, KC_BSPC, KC_GRV,
-        KC_TAB, KC_Q, KC_W, KC_F, KC_P, KC_B, KC_J, KC_L, KC_U, KC_Y, KC_SCOLON, KC_LBRC, KC_RBRC, KC_DEL, KC_BSLS,
-        KC_BSPC, KC_A, KC_R, KC_S, KC_T, KC_G, KC_M, KC_N, KC_E, KC_I, KC_O, KC_QUOT, KC_ENT, KC_TRANSPARENT, KC_HOME,
-        KC_LSFT, KC_Z, KC_X, KC_C, KC_D, KC_V, KC_K, KC_H, KC_COMM, KC_DOT, KC_SLSH, KC_RSFT, KC_TRANSPARENT, KC_UP, KC_END,
-        KC_LCTL, KC_LALT, KC_LGUI, KC_SPC, KC_SPC, KC_SPC, MO(2), MO(1), MO(2), KC_SPC, KC_SPC, TG(3), KC_LEFT, KC_DOWN, KC_RGHT
+    [_CMK] = LAYOUT_ortho_5x15(
+        KC_GESC, KC_1,    KC_2,    KC_3,    KC_4,    KC_5,    KC_GRV,  KC_BSPC, KC_6,    KC_7,    KC_8,    KC_9,    KC_0,    KC_MINS, KC_EQL,
+        KC_TAB,  KC_Q,    KC_W,    KC_F,    KC_P,    KC_B,    KC_BSLS, KC_DEL,  KC_J,    KC_L,    KC_U,    KC_Y,    KC_SCLN, KC_LBRC, KC_RBRC,
+        KC_BSPC, KC_A,    KC_R,    KC_S,    KC_T,    KC_G,    KC_HOME, KC_END,  KC_M,    KC_N,    KC_E,    KC_I,    KC_O,    KC_QUOT, KC_ENT,
+        KC_LSFT, KC_Z,    KC_X,    KC_C,    KC_D,    KC_V,    KC_PGUP, KC_PGDN, KC_K,    KC_H,    KC_COMM, KC_DOT,  KC_SLSH, KC_UP,   KC_RSFT,
+        KC_LCTL, KC_LALT, KC_LGUI, KC_SPC,  KC_SPC,  KC_SPC,  MO(_FN), MO(_MSE),MO(_FN), KC_SPC,  KC_SPC,  TG(_QTY),KC_LEFT, KC_DOWN, KC_RGHT
+    ),
+    [_QTY] = LAYOUT_ortho_5x15(
+        _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
+        _______, KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,    _______, _______, KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,    _______, _______,
+        _______, KC_A,    KC_S,    KC_D,    KC_F,    KC_G,    _______, _______, KC_H,    KC_J,    KC_K,    KC_L,    KC_SCLN, KC_QUOT, _______,
+        _______, KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,    _______, _______, KC_N,    KC_M,    _______, _______, _______, _______, _______,
+        _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______
+    ),
+    [_FN] = LAYOUT_ortho_5x15(
+        _______, KC_F1,   KC_F2,      KC_F3,          KC_F4,      KC_F5,   KC_MYCM, KC_MPLY, KC_F6,   KC_F7,   KC_F8,   KC_F9,   KC_F10,  KC_F11,  KC_F12,
+        _______, _______, G(KC_LBRC), ALT_T(KC_UP),   G(KC_RBRC), _______, KC_BRIU, KC_BRID, _______, _______, _______, _______, _______, _______, _______,
+        _______, _______, KC_LEFT,    ALT_T(KC_DOWN), KC_RGHT,    M_TERM,  M_VIM,   _______, _______, _______, _______, _______, _______, _______, _______,
+        _______, _______, _______,    _______,        _______,    _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
+        _______, _______, _______,    _______,        _______,    _______, _______, _______, _______, _______, _______, _______, _______, _______, _______
+    ),
+    [_MSE] = LAYOUT_ortho_5x15(
+        _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
+        _______, _______, KC_BTN1, KC_MS_U, KC_BTN2, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
+        _______, KC_WH_U, KC_MS_L, KC_MS_D, KC_MS_R, _______, _______, _______, _______, KC_WH_D, _______, _______, _______, _______, _______,
+        _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
+        _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______
     )
 };
 // clang-format on
 
+const uint16_t PROGMEM _const[]  = {KC_C, KC_N, KC_T, COMBO_END};
+const uint16_t PROGMEM _var[]    = {KC_V, KC_R, COMBO_END};
+const uint16_t PROGMEM _dotnet[] = {KC_D, KC_N, KC_T, COMBO_END};
+
+combo_t key_combos[COMBO_COUNT] = {
+    COMBO(_const, C_CONST),  //
+    COMBO(_var, C_VAR),      //
+    COMBO(_dotnet, C_DOTNET) //
+};
+
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     switch (keycode) {
-        case M_CONST:
-            if (record->event.pressed) {
-                SEND_STRING("const");
-            } else {
-            }
+        case C_CONST:
+            if (record->event.pressed) SEND_STRING("const");
             return false;
-        case M_VAR:
-            if (record->event.pressed) {
-                SEND_STRING("var");
-            } else {
-            }
+        case C_VAR:
+            if (record->event.pressed) SEND_STRING("var");
             return false;
-        case M_DOTNET:
-            if (record->event.pressed) {
-                SEND_STRING("dotnet");
-            } else {
-            }
+        case C_DOTNET:
+            if (record->event.pressed) SEND_STRING("dotnet");
             return false;
         default:
             return true; // Process all other keycodes normally
     }
-}
-
-enum combos {
-    C_N_T_M_CONST,
-    V_R_M_VAR,
-    D_N_T_M_DOTNET,
 };
-
-const uint16_t PROGMEM c_n_t_m_const[]  = {KC_C, KC_N, KC_T, COMBO_END};
-const uint16_t PROGMEM v_r_m_var[]      = {KC_V, KC_R, COMBO_END};
-const uint16_t PROGMEM d_n_t_m_dotnet[] = {KC_D, KC_N, KC_T, COMBO_END};
-
-combo_t key_combos[COMBO_COUNT] = {
-    [C_N_T_M_CONST]  = COMBO(c_n_t_m_const, M_CONST),
-    [V_R_M_VAR]      = COMBO(v_r_m_var, M_VAR),
-    [D_N_T_M_DOTNET] = COMBO(d_n_t_m_dotnet, M_DOTNET),
-};
-
-void keyboard_post_init_user(void) {
-  rgblight_sethsv(0, 0, 64);
-}
