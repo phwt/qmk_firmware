@@ -14,6 +14,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 #include QMK_KEYBOARD_H
+#include "features/caps_word.h"
 
 // Defines the keycodes used by our macros in process_record_user
 enum custom_keycodes {
@@ -75,6 +76,10 @@ combo_t key_combos[COMBO_COUNT] = {
 };
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
+    if (!process_caps_word(keycode, record)) {
+        return false;
+    }
+
     switch (keycode) {
         case C_CONST:
             if (record->event.pressed) SEND_STRING("const");
