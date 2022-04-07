@@ -69,3 +69,7 @@ combo_t key_combos[COMBO_COUNT] = {
     [V_R_M_VAR]      = COMBO(v_r_m_var, M_VAR),
     [D_N_T_M_DOTNET] = COMBO(d_n_t_m_dotnet, M_DOTNET),
 };
+
+void keyboard_post_init_user(void) {
+  rgblight_sethsv(0, 0, 64);
+}
