@@ -49,8 +49,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = { // clang-format o
         _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______
     ),
     [_FN] = LAYOUT_ortho_5x15(
-        _______, KC_F1,   KC_F2,      KC_F3,          KC_F4,      KC_F5,   KC_MYCM, KC_MPLY, KC_F6,   KC_F7,   KC_F8,   KC_F9,   KC_F10,  KC_F11,  KC_F12,
-        _______, _______, G(KC_LBRC), ALT_T(KC_UP),   G(KC_RBRC), _______, KC_BRIU, KC_BRID, _______, _______, _______, _______, _______, _______, _______,
+        RESET,   KC_F1,   KC_F2,      KC_F3,          KC_F4,      KC_F5,   KC_MYCM, KC_MPLY, KC_F6,   KC_F7,   KC_F8,   KC_F9,   KC_F10,  KC_F11,  KC_F12,
+        _______, _______, G(KC_LBRC), ALT_T(KC_UP),   G(KC_RBRC), _______, KC_BRID, KC_BRIU, _______, _______, _______, _______, _______, _______, _______,
         _______, _______, KC_LEFT,    ALT_T(KC_DOWN), KC_RGHT,    M_TERM,  M_VIM,   _______, _______, _______, _______, _______, _______, _______, _______,
         _______, _______, _______,    _______,        _______,    _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
         _______, _______, _______,    _______,        _______,    _______, _______, _______, _______, _______, _______, _______, _______, _______, _______
@@ -65,20 +65,22 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = { // clang-format o
 };
 // clang-format on
 
+const uint16_t PROGMEM _rbspc[]  = {KC_MINS, KC_EQL, COMBO_END};
+const uint16_t PROGMEM _rdel[]   = {KC_LBRC, KC_RBRC, COMBO_END};
 const uint16_t PROGMEM _const[]  = {KC_C, KC_N, KC_T, COMBO_END};
 const uint16_t PROGMEM _var[]    = {KC_V, KC_R, COMBO_END};
 const uint16_t PROGMEM _dotnet[] = {KC_D, KC_N, KC_T, COMBO_END};
 
 combo_t key_combos[COMBO_COUNT] = {
+    COMBO(_rbspc, KC_BSPC),  //
+    COMBO(_rdel, KC_DEL),    //
     COMBO(_const, C_CONST),  //
     COMBO(_var, C_VAR),      //
     COMBO(_dotnet, C_DOTNET) //
 };
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
-    if (!process_caps_word(keycode, record)) {
-        return false;
-    }
+    if (!process_caps_word(keycode, record)) return false;
 
     switch (keycode) {
         case C_CONST:
