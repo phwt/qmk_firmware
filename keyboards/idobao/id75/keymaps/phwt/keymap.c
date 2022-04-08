@@ -1,4 +1,4 @@
-/* Copyright 2018 MechMerlin
+/* Copyright 2022 phwt
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -51,7 +51,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = { // clang-format o
     [_FN] = LAYOUT_ortho_5x15(
         RESET,   KC_F1,   KC_F2,      KC_F3,          KC_F4,      KC_F5,   KC_MYCM, KC_MPLY, KC_F6,   KC_F7,   KC_F8,   KC_F9,   KC_F10,  KC_F11,  KC_F12,
         _______, _______, G(KC_LBRC), ALT_T(KC_UP),   G(KC_RBRC), _______, KC_BRID, KC_BRIU, _______, _______, _______, _______, _______, _______, _______,
-        _______, _______, KC_LEFT,    ALT_T(KC_DOWN), KC_RGHT,    M_TERM,  M_VIM,   _______, _______, _______, _______, _______, _______, _______, _______,
+        _______, _______, KC_LEFT,    ALT_T(KC_DOWN), KC_RGHT,    _______, M_TERM,  M_VIM,   _______, _______, _______, _______, _______, _______, _______,
         _______, _______, _______,    _______,        _______,    _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
         _______, _______, _______,    _______,        _______,    _______, _______, _______, _______, _______, _______, _______, _______, _______, _______
     ),
@@ -91,6 +91,21 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             return false;
         case C_DOTNET:
             if (record->event.pressed) SEND_STRING("dotnet");
+            return false;
+        case M_TERM:
+            if (record->event.pressed) {
+                register_code(KC_LCTL);
+                register_code(KC_GRV);
+                clear_keyboard();
+            }
+            return false;
+        case M_VIM:
+            if (record->event.pressed) {
+                register_code(KC_LGUI);
+                register_code(KC_I);
+                register_code(KC_M);
+                clear_keyboard();
+            }
             return false;
         default:
             return true; // Process all other keycodes normally
