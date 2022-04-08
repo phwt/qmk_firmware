@@ -18,12 +18,15 @@
 
 // Defines the keycodes used by our macros in process_record_user
 enum custom_keycodes {
-    C_CONST = SAFE_RANGE, //
+    C_CONST = SAFE_RANGE,
     C_VAR,
     C_DOTNET,
 
-    M_TERM,
-    M_VIM
+    // Macros for Visual Studio Code
+    M_TERM, // Toggle terminal (Ctrl + `)
+    M_VIM,  // Toggle Vim (Cmd + I + M)
+    M_LNUP, // Move line up
+    M_LNDN  // Move line down
 };
 
 enum layers {
@@ -49,11 +52,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = { // clang-format o
         _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______
     ),
     [_FN] = LAYOUT_ortho_5x15(
-        RESET,   KC_F1,   KC_F2,      KC_F3,          KC_F4,      KC_F5,   KC_MYCM, KC_MPLY, KC_F6,   KC_F7,   KC_F8,   KC_F9,   KC_F10,  KC_F11,  KC_F12,
-        _______, _______, G(KC_LBRC), ALT_T(KC_UP),   G(KC_RBRC), _______, KC_BRID, KC_BRIU, _______, _______, _______, _______, _______, _______, _______,
-        _______, _______, KC_LEFT,    ALT_T(KC_DOWN), KC_RGHT,    _______, M_TERM,  M_VIM,   _______, _______, _______, _______, _______, _______, _______,
-        _______, _______, _______,    _______,        _______,    _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
-        _______, _______, _______,    _______,        _______,    _______, _______, _______, _______, _______, _______, _______, _______, _______, _______
+        RESET,   KC_F1,   KC_F2,      KC_F3,   KC_F4,      KC_F5,   KC_MYCM, KC_MPLY, KC_F6,   KC_F7,   KC_F8,   KC_F9,   KC_F10,  KC_F11,  KC_F12,
+        _______, _______, G(KC_LBRC), M_LNUP,  G(KC_RBRC), _______, KC_BRID, KC_BRIU, _______, _______, _______, _______, _______, _______, _______,
+        _______, _______, KC_LEFT,    M_LNDN,  KC_RGHT,    _______, M_TERM,  M_VIM,   _______, _______, _______, _______, _______, _______, _______,
+        _______, _______, _______,    _______, _______,    _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
+        _______, _______, _______,    _______, _______,    _______, _______, _______, _______, _______, _______, _______, _______, _______, _______
     ),
     [_MSE] = LAYOUT_ortho_5x15(
         _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
@@ -104,6 +107,20 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                 register_code(KC_LGUI);
                 register_code(KC_I);
                 register_code(KC_M);
+                clear_keyboard();
+            }
+            return false;
+        case M_LNUP:
+            if (record->event.pressed) {
+                register_code(KC_LALT);
+                tap_code_delay(KC_UP, 10);
+                clear_keyboard();
+            }
+            return false;
+        case M_LNDN:
+            if (record->event.pressed) {
+                register_code(KC_LALT);
+                tap_code_delay(KC_DOWN, 10);
                 clear_keyboard();
             }
             return false;
