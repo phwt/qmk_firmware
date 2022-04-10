@@ -78,7 +78,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = { // clang-format o
         _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______
     ),
     [_MSE] = LAYOUT_ortho_5x15(
-        RESET,   _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
+        _______,  _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
         _______, KC_BTN1, KC_MS_U, KC_BTN2, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
         KC_WH_D, KC_MS_L, KC_MS_D, KC_MS_R, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
         _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
@@ -87,12 +87,14 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = { // clang-format o
 };
 // clang-format on
 
+const uint16_t PROGMEM _reset[]   = {LOWER, RAISE, KC_ESC, COMBO_END};
 const uint16_t PROGMEM _const[]   = {KC_C, KC_N, KC_T, COMBO_END};
 const uint16_t PROGMEM _var[]     = {KC_V, KC_R, COMBO_END};
 const uint16_t PROGMEM _dotnet[]  = {KC_D, KC_N, KC_T, COMBO_END};
 const uint16_t PROGMEM _ltoggle[] = {LOWER, RAISE, COMBO_END};
 
 combo_t key_combos[COMBO_COUNT] = {
+    COMBO(_reset, RESET),     //
     COMBO(_const, C_CONST),   //
     COMBO(_var, C_VAR),       //
     COMBO(_dotnet, C_DOTNET), //
