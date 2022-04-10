@@ -22,10 +22,6 @@ enum custom_keycodes {
     C_VAR,
     C_DOTNET,
 
-    // Macros for Visual Studio Code
-    M_TERM, // Toggle terminal (Ctrl + `)
-    M_VIM,  // Toggle Vim (Cmd + I + M)
-
     // Layers
     LOWER,
     RAISE,
@@ -64,18 +60,18 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = { // clang-format o
         _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______
     ),
     [_LWR] = LAYOUT_ortho_5x15(
-        _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
+        KC_GRV,  KC_EXLM, KC_AT,   KC_HASH, KC_DLR,  KC_PERC, _______, _______, _______, KC_CIRC, KC_AMPR, KC_ASTR, KC_LPRN, KC_RPRN, _______,
         _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, KC_UNDS, KC_PLUS, KC_LCBR, KC_RCBR, KC_PIPE,
         _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, KC_MINS, KC_EQL,  KC_LBRC, KC_RBRC, KC_BSLS,
         _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
-        _______, _______, _______, _______, _______, _______, _______, _______, _______, KC_END,  _______, _______, _______, _______, _______
+        _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, KC_END,  _______, _______, _______
     ),
     [_RSE] = LAYOUT_ortho_5x15(
-        KC_GRV,  _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
-        _______, KC_WH_U, KC_UP,   KC_WH_D, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
-        _______, KC_LEFT, KC_DOWN, KC_RGHT, _______, _______, M_TERM,  M_VIM,   _______, _______, _______, _______, _______, _______, _______,
+        KC_GRV,  KC_EXLM, KC_AT,   KC_HASH, KC_DLR,  KC_PERC, _______, _______, _______, KC_CIRC, KC_AMPR, KC_ASTR, KC_LPRN, KC_RPRN, _______,
+        _______, KC_WH_D, KC_UP,   KC_WH_U, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
+        _______, KC_LEFT, KC_DOWN, KC_RGHT, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
         _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
-        _______, _______, _______, _______, _______, KC_HOME, _______, _______, _______, _______, _______, _______, _______, _______, _______
+        _______, _______, _______, KC_HOME, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______
     ),
     [_MSE] = LAYOUT_ortho_5x15(
         _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
@@ -114,21 +110,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         case C_DOTNET:
             if (record->event.pressed) SEND_STRING("dotnet");
             return false;
-        case M_TERM:
-            if (record->event.pressed) {
-                register_code(KC_LCTL);
-                register_code(KC_GRV);
-                clear_keyboard();
-            }
-            return false;
-        case M_VIM:
-            if (record->event.pressed) {
-                register_code(KC_LGUI);
-                register_code(KC_I);
-                register_code(KC_M);
-                clear_keyboard();
-            }
-            return false;
         case LOWER:
             if (record->event.pressed) {
                 layer_on(_LWR);
@@ -149,4 +130,12 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         default:
             return true; // Process all other keycodes normally
     }
+};
+
+const key_override_t ctrl_esc_term = ko_make_basic(MOD_MASK_CTRL, KC_ESC, C(KC_GRV));
+
+// This globally defines all key overrides to be used
+const key_override_t **key_overrides = (const key_override_t *[]){
+    &ctrl_esc_term,
+    NULL // Null terminate the array of overrides!
 };
