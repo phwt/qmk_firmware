@@ -15,6 +15,7 @@
  */
 #include QMK_KEYBOARD_H
 #include "features/caps_word.h"
+#include "keymap.h"
 
 // Defines the keycodes used by our macros in process_record_user
 enum custom_keycodes {
@@ -25,6 +26,8 @@ enum custom_keycodes {
     V_DOWN,
     V_UP,
     V_MID,
+
+    M_MUTE,
 
     // Layers
     LOWER,
@@ -59,7 +62,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = { // clang-format o
     [_FN] = LAYOUT_ortho_5x15(
         KC_F12,  KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,   KC_BRID, KC_MPLY, KC_BRIU, KC_F6,   KC_F7,   KC_F8,   KC_F9,   KC_F10,  KC_F11,
         _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
-        _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
+        _______, _______, _______, _______, _______, _______, _______, M_MUTE,  _______, _______, _______, _______, _______, _______, _______,
         _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
         _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______
     ),
@@ -131,6 +134,13 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         case V_MID:
             if (record->event.pressed) {
                 SEND_STRING("50%%zz");
+            }
+            return false;
+        case M_MUTE:
+            if (record->event.pressed) {
+                register_code(KC_LSFT);
+                register_code(KC_F1);
+                clear_keyboard();
             }
             return false;
         case LOWER:
