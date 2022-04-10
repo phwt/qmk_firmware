@@ -22,6 +22,10 @@ enum custom_keycodes {
     C_VAR,
     C_DOTNET,
 
+    V_DOWN,
+    V_UP,
+    V_MID,
+
     // Layers
     LOWER,
     RAISE,
@@ -68,8 +72,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = { // clang-format o
     ),
     [_RSE] = LAYOUT_ortho_5x15(
         KC_GRV,  KC_EXLM, KC_AT,   KC_HASH, KC_DLR,  KC_PERC, _______, _______, _______, KC_CIRC, KC_AMPR, KC_ASTR, KC_LPRN, KC_RPRN, _______,
-        _______, KC_WH_D, KC_UP,   KC_WH_U, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
-        _______, KC_LEFT, KC_DOWN, KC_RGHT, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
+        _______, V_UP,    KC_UP,   V_DOWN,  _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
+        _______, KC_LEFT, KC_DOWN, KC_RGHT, _______, V_MID,   _______, _______, _______, _______, _______, _______, _______, _______, _______,
         _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
         _______, _______, _______, KC_HOME, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______
     ),
@@ -109,6 +113,25 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             return false;
         case C_DOTNET:
             if (record->event.pressed) SEND_STRING("dotnet");
+            return false;
+        case V_UP:
+            if (record->event.pressed) {
+                for (size_t i = 0; i < 10; i++) {
+                    SEND_STRING(SS_LCTL("y"));
+                }
+            }
+            return false;
+        case V_DOWN:
+            if (record->event.pressed) {
+                for (size_t i = 0; i < 10; i++) {
+                    SEND_STRING(SS_LCTL("e"));
+                }
+            }
+            return false;
+        case V_MID:
+            if (record->event.pressed) {
+                SEND_STRING("50%%zz");
+            }
             return false;
         case LOWER:
             if (record->event.pressed) {
