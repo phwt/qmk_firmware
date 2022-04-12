@@ -14,8 +14,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 #include QMK_KEYBOARD_H
-#include "features/caps_word.h"
-#include "keymap.h"
 
 // Defines the keycodes used by our macros in process_record_user
 enum custom_keycodes {
@@ -46,11 +44,11 @@ enum layers {
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = { // clang-format off
     [_CMK] = LAYOUT_ortho_5x15(
-        KC_ESC,  KC_1,    KC_2,    KC_3,    KC_4,    KC_5,    KC_PSLS, KC_PAST, KC_PMNS, KC_6,    KC_7,    KC_8,    KC_9,    KC_0,    KC_BSPC,
+        KC_ESC,  KC_1,    KC_2,    KC_3,    KC_4,    KC_5,    KC_PEQL, KC_PAST, KC_PMNS, KC_6,    KC_7,    KC_8,    KC_9,    KC_0,    KC_BSPC,
         KC_TAB,  KC_Q,    KC_W,    KC_F,    KC_P,    KC_B,    KC_P7,   KC_P8,   KC_P9,   KC_J,    KC_L,    KC_U,    KC_Y,    KC_SCLN, KC_DEL,
         KC_BSPC, KC_A,    KC_R,    KC_S,    KC_T,    KC_G,    KC_P4,   KC_P5,   KC_P6,   KC_M,    KC_N,    KC_E,    KC_I,    KC_O,    KC_QUOT,
         KC_LSFT, KC_Z,    KC_X,    KC_C,    KC_D,    KC_V,    KC_P1,   KC_P2,   KC_P3,   KC_K,    KC_H,    KC_COMM, KC_DOT,  KC_SLSH, KC_ENT,
-        KC_LCTL, KC_LALT, KC_LGUI, LOWER,  KC_SPC,   MO(_FN), KC_PPLS, KC_P0,   KC_PDOT, MO(_FN), KC_SPC,  RAISE,   _______, _______, KC_RSFT
+        KC_LCTL, KC_LALT, KC_LGUI, LOWER,   KC_SPC,  KC_SPC,  KC_SPC,  KC_P0,   KC_PPLS, MO(_FN), RAISE,   KC_LEFT, KC_DOWN, KC_UP, KC_RGHT
     ),
     [_QTY] = LAYOUT_ortho_5x15(
         _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
@@ -67,17 +65,17 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = { // clang-format o
         _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______
     ),
     [_LWR] = LAYOUT_ortho_5x15(
-        KC_GRV,  KC_EXLM, KC_AT,   KC_HASH, KC_DLR,  KC_PERC, _______, _______, _______, KC_CIRC, KC_AMPR, KC_ASTR, KC_LPRN, KC_RPRN, _______,
-        _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, KC_UNDS, KC_PLUS, KC_LCBR, KC_RCBR, KC_PIPE,
-        _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, KC_MINS, KC_EQL,  KC_LBRC, KC_RBRC, KC_BSLS,
         _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
-        _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, KC_END,  _______, _______, _______
-    ),
-    [_RSE] = LAYOUT_ortho_5x15(
-        KC_GRV,  KC_EXLM, KC_AT,   KC_HASH, KC_DLR,  KC_PERC, _______, _______, _______, KC_CIRC, KC_AMPR, KC_ASTR, KC_LPRN, KC_RPRN, _______,
         _______, V_UP,    KC_UP,   V_DOWN,  _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
         _______, KC_LEFT, KC_DOWN, KC_RGHT, _______, V_MID,   _______, _______, _______, _______, _______, _______, _______, _______, _______,
         _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
+        _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, KC_END,  _______, _______, _______, _______
+    ),
+    [_RSE] = LAYOUT_ortho_5x15(
+        KC_GRV,  KC_EXLM, KC_AT,   KC_HASH, KC_DLR,  KC_PERC, _______, _______, _______, KC_CIRC, KC_AMPR, KC_ASTR, KC_LPRN, KC_RPRN, _______,
+        _______, KC_LABK, KC_PERC, KC_HOME, KC_LCBR, KC_COMM, _______, _______, _______, KC_DOT,  KC_RCBR, KC_END,  KC_AMPR, KC_RABK, _______,
+        _______, KC_CIRC, KC_COLN, KC_PLUS, KC_LPRN, KC_UNDS, _______, _______, _______, KC_EQL,  KC_RPRN, KC_MINS, KC_SCLN, KC_DLR,  _______,
+        _______, KC_PIPE, KC_GRV,  KC_PGUP, KC_LBRC, KC_DQUO, _______, _______, _______, KC_QUOT, KC_RBRC, KC_PGDN, KC_TILD, KC_BSLS, _______,
         _______, _______, _______, KC_HOME, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______
     ),
     [_MSE] = LAYOUT_ortho_5x15(
@@ -105,8 +103,6 @@ combo_t key_combos[COMBO_COUNT] = {
 };
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
-    if (!process_caps_word(keycode, record)) return false;
-
     switch (keycode) {
         case C_CONST:
             if (record->event.pressed) SEND_STRING("const");
@@ -166,10 +162,11 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 };
 
 const key_override_t ctrl_esc_term         = ko_make_basic(MOD_MASK_CTRL, KC_ESC, C(KC_GRV));
+const key_override_t gui_esc_cycle         = ko_make_basic(MOD_MASK_GUI, KC_ESC, G(KC_GRV));
 const key_override_t shift_backspace_sleep = ko_make_basic(MOD_MASK_SHIFT, KC_BSPC, KC_SLEP);
 
 // This globally defines all key overrides to be used
 const key_override_t **key_overrides = (const key_override_t *[]){
-    &ctrl_esc_term, &shift_backspace_sleep,
+    &ctrl_esc_term, &gui_esc_cycle, &shift_backspace_sleep,
     NULL // Null terminate the array of overrides!
 };
