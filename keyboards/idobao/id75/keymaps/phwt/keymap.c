@@ -83,9 +83,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = { // clang-format o
     ),
     [_RSE] = LAYOUT_ortho_5x15(
         KC_GRV,  KC_EXLM, KC_AT,   KC_HASH, KC_DLR,  KC_PERC, _______, _______, _______, KC_CIRC, KC_AMPR, KC_ASTR, KC_LPRN, KC_RPRN, _______,
-        _______, KC_LABK, KC_PERC, KC_HOME, KC_LCBR, KC_COMM, _______, _______, _______, KC_DOT,  KC_RCBR, KC_END,  KC_AMPR, KC_RABK, _______,
-        _______, KC_CIRC, KC_COLN, KC_PLUS, KC_LPRN, KC_UNDS, _______, _______, _______, KC_EQL,  KC_RPRN, KC_MINS, KC_SCLN, KC_DLR,  _______,
-        _______, KC_PIPE, KC_GRV,  KC_PGUP, KC_LBRC, KC_DQUO, _______, _______, _______, KC_QUOT, KC_RBRC, KC_PGDN, KC_TILD, KC_BSLS, _______,
+        _______, KC_LABK, KC_GRV,  KC_EXLM, KC_DQUO, KC_LCBR, _______, _______, _______, KC_RCBR, KC_QUOT, KC_ASTR, KC_TILD, KC_RABK, _______,
+        _______, KC_COLN, KC_CIRC, KC_PLUS, KC_COMM, KC_LPRN, _______, _______, _______, KC_RPRN, KC_DOT,  KC_MINS, KC_DLR,  KC_SCLN, _______,
+        _______, KC_PIPE, KC_HOME, KC_PGUP, KC_UNDS, KC_LBRC, _______, _______, _______, KC_RBRC, KC_EQL,  KC_PGDN, KC_END,  KC_BSLS, _______,
         _______, _______, _______, KC_HOME, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______
     ),
     [_MSE] = LAYOUT_ortho_5x15(
