@@ -94,8 +94,8 @@ const uint16_t PROGMEM _reset[]   = {LOWER, RAISE, KC_ESC, COMBO_END};
 const uint16_t PROGMEM _ltoggle[] = {LOWER, RAISE, COMBO_END};
 
 combo_t key_combos[COMBO_COUNT] = {
-    COMBO(_reset, RESET),   //
-    COMBO(_ltoggle, TOGGLE) //
+    COMBO(_reset, RESET),     //
+    COMBO(_ltoggle, TOGGLE)   //
 };
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
