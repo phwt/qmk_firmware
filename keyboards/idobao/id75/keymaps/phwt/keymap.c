@@ -26,6 +26,8 @@ enum custom_keycodes {
     V_MID,
 
     M_MUTE,
+    M_GRH,  // grs HEAD^
+    M_GSAC, // gst > ga > gst > gc
 
     // Layers
     LOWER,
@@ -69,7 +71,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = { // clang-format o
         KC_F12,  KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,   KC_BRID, KC_MPLY, KC_BRIU, KC_F6,   KC_F7,   KC_F8,   KC_F9,   KC_F10,  KC_F11,
         _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
         _______, _______, _______, _______, _______, _______, _______, M_MUTE,  _______, _______, _______, _______, _______, _______, _______,
-        _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
+        _______, _______, _______, _______, _______, _______, M_GRH,   _______, M_GSAC,  _______, _______, _______, _______, _______, _______,
         _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______
     ),
     [_LWR] = LAYOUT_ortho_5x15(
@@ -145,6 +147,16 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                 register_code(KC_LSFT);
                 register_code(KC_F1);
                 clear_keyboard();
+            }
+            return false;
+        case M_GRH:
+            if (record->event.pressed) {
+                SEND_STRING("grh HEAD^");
+            }
+            return false;
+        case M_GSAC:
+            if (record->event.pressed) {
+                SEND_STRING("gst && ga . && gst" SS_TAP(X_ENTER) "gc -m \":\"" SS_TAP(X_LEFT) SS_TAP(X_LEFT));
             }
             return false;
         case LOWER:
