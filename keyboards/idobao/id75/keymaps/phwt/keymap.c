@@ -46,6 +46,7 @@ qk_tap_dance_action_t tap_dance_actions[] = {
 enum layers {
     _CMK, // Colemak-DH Matrix
     _QTY, // QWERTY
+    _FN,
     _LWR,
     _RSE,
     _MSE
@@ -66,11 +67,18 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = { // clang-format o
         KC_QUOT, KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,    _______, _______, _______, KC_N,    KC_M,    KC_COMM, KC_DOT,  KC_SLSH, _______,
         _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______
     ),
-    [_LWR] = LAYOUT_ortho_5x15(
+    [_FN] = LAYOUT_ortho_5x15(
         KC_F12,  KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,   KC_BRID, KC_MPLY, KC_BRIU, KC_F6,   KC_F7,   KC_F8,   KC_F9,   KC_F10,  KC_F11,
-        _______, V_UP,    KC_UP,   V_DOWN,  _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
-        _______, KC_LEFT, KC_DOWN, KC_RGHT, _______, V_MID,   _______, M_MUTE,  _______, _______, _______, _______, _______, _______, _______,
+        _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
+        _______, _______, _______, _______, _______, _______, _______, M_MUTE,  _______, _______, _______, _______, _______, _______, _______,
         _______, _______, _______, _______, _______, _______, M_GRH,   _______, M_GSAC,  _______, _______, _______, _______, _______, _______,
+        _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______
+    ),
+    [_LWR] = LAYOUT_ortho_5x15(
+        _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
+        _______, V_UP,    KC_UP,   V_DOWN,  _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
+        _______, KC_LEFT, KC_DOWN, KC_RGHT, _______, V_MID,   _______, _______, _______, _______, _______, _______, _______, _______, _______,
+        _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
         _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, KC_END,  _______, _______, _______, _______
     ),
     [_RSE] = LAYOUT_ortho_5x15(
@@ -94,8 +102,8 @@ const uint16_t PROGMEM _reset[]   = {LOWER, RAISE, KC_ESC, COMBO_END};
 const uint16_t PROGMEM _ltoggle[] = {LOWER, RAISE, COMBO_END};
 
 combo_t key_combos[COMBO_COUNT] = {
-    COMBO(_reset, RESET),     //
-    COMBO(_ltoggle, TOGGLE)   //
+    COMBO(_reset, RESET),   //
+    COMBO(_ltoggle, TOGGLE) //
 };
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
@@ -138,15 +146,19 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             return false;
         case LOWER:
             if (record->event.pressed) {
+                layer_on(_FN);
                 layer_on(_LWR);
             } else {
+                layer_off(_FN);
                 layer_off(_LWR);
             }
             return false;
         case RAISE:
             if (record->event.pressed) {
+                layer_on(_FN);
                 layer_on(_RSE);
             } else {
+                layer_off(_FN);
                 layer_off(_RSE);
             }
             return false;
