@@ -56,9 +56,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = { // clang-format o
     [_CMK] = LAYOUT_ortho_5x15(
         KC_ESC,  KC_1,    KC_2,    KC_3,    KC_4,    KC_5,    KC_PEQL, KC_PAST, KC_PMNS, KC_6,    KC_7,    KC_8,    KC_9,    KC_0,    KC_BSPC,
         KC_TAB,  KC_Q,    KC_W,    KC_F,    KC_P,    KC_B,    KC_P7,   KC_P8,   KC_P9,   KC_J,    KC_L,    KC_U,    KC_Y,    KC_SCLN, KC_DEL,
-        KC_BSPC, KC_A,    KC_R,    KC_S,    KC_T,    KC_G,    KC_P4,   KC_P5,   KC_P6,   KC_M,    KC_N,    KC_E,    KC_I,    KC_O,    KC_QUOT,
-        KC_SAPS, KC_Z,    KC_X,    KC_C,    KC_D,    KC_V,    KC_P1,   KC_P2,   KC_P3,   KC_K,    KC_H,    KC_COMM, KC_DOT,  KC_SLSH, KC_ENT,
-        KC_LCTL, KC_LALT, KC_LGUI, LOWER,   KC_SPC,  KC_SPC,  KC_SPC,  KC_P0,   KC_PPLS, KC_RALT, RAISE,   KC_LEFT, KC_DOWN, KC_UP,   KC_RGHT
+        KC_BSPC, KC_A,    KC_R,    KC_S,    KC_T,    KC_G,    KC_P4,   KC_P5,   KC_P6,   KC_M,    KC_N,    KC_E,    KC_I,    KC_O,    KC_ENT,
+        KC_SAPS, KC_Z,    KC_X,    KC_C,    KC_D,    KC_V,    KC_P1,   KC_P2,   KC_P3,   KC_K,    KC_H,    KC_COMM, KC_DOT,  KC_UP,   KC_RSFT,
+        KC_LCTL, KC_LALT, KC_LGUI, LOWER,   KC_SPC,  KC_SPC,  KC_SPC,  KC_P0,   KC_PPLS, MO(_FN), RAISE,   KC_RALT, KC_LEFT, KC_DOWN, KC_RGHT
     ),
     [_QTY] = LAYOUT_ortho_5x15(
         _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
@@ -85,7 +85,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = { // clang-format o
         _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
         _______, KC_LABK, KC_GRV,  KC_EXLM, KC_DQUO, KC_LCBR, _______, _______, _______, KC_RCBR, KC_QUOT, KC_ASTR, KC_TILD, KC_RABK, _______,
         _______, KC_COLN, KC_CIRC, KC_PLUS, KC_COMM, KC_LPRN, _______, _______, _______, KC_RPRN, KC_DOT,  KC_MINS, KC_DLR,  KC_SCLN, _______,
-        _______, KC_PIPE, KC_HOME, KC_PGUP, KC_UNDS, KC_LBRC, _______, _______, _______, KC_RBRC, KC_EQL,  KC_PGDN, KC_END,  KC_BSLS, _______,
+        _______, KC_SLSH, KC_QUES, KC_PGUP, KC_UNDS, KC_LBRC, _______, _______, _______, KC_RBRC, KC_EQL,  KC_PGDN, KC_PIPE, KC_BSLS, _______,
         _______, _______, _______, KC_HOME, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______
     ),
     [_MSE] = LAYOUT_ortho_5x15(
