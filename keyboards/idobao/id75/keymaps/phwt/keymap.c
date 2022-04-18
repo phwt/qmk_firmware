@@ -44,23 +44,39 @@ qk_tap_dance_action_t tap_dance_actions[] = {
 #define KC_SAPS TD(TD_RSFT_CAPS)
 
 enum layers {
-    _CMK, // Colemak-DH Matrix
-    _QTY, // Non-split QWERTY
+    _COLEMAK, // Colemak-DH Matrix
+    _QWERTY,  // Split QWERTY
+    _QWERTYE, // Extended QWERTY
+    _QWERTYV, // Non-split QWERTY
     _FN,
-    _LWR,
-    _RSE,
-    _MSE
+    _LOWER,
+    _RAISE,
+    _MOUSE
 };
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = { // clang-format off
-    [_CMK] = LAYOUT_ortho_5x15(
-        KC_ESC,  KC_1,    KC_2,    KC_3,    KC_4,    KC_5,    KC_PEQL, KC_PAST, KC_PMNS, KC_6,    KC_7,    KC_8,    KC_9,    KC_0,    KC_BSPC,
-        KC_TAB,  KC_Q,    KC_W,    KC_F,    KC_P,    KC_B,    KC_P7,   KC_P8,   KC_P9,   KC_J,    KC_L,    KC_U,    KC_Y,    KC_SCLN, KC_DEL,
-        KC_BSPC, KC_A,    KC_R,    KC_S,    KC_T,    KC_G,    KC_P4,   KC_P5,   KC_P6,   KC_M,    KC_N,    KC_E,    KC_I,    KC_O,    KC_ENT,
-        KC_LSFT, KC_Z,    KC_X,    KC_C,    KC_D,    KC_V,    KC_P1,   KC_P2,   KC_P3,   KC_K,    KC_H,    KC_COMM, KC_DOT,  KC_UP,   KC_SAPS,
-        KC_LCTL, MO(_FN), KC_LALT, KC_LGUI, KC_SPC,  KC_SPC,  KC_SPC,  KC_P0,   KC_PPLS, KC_RALT, LOWER,   RAISE,   KC_LEFT, KC_DOWN, KC_RGHT
+    [_COLEMAK] = LAYOUT_ortho_5x15(
+        KC_ESC,  KC_1,    KC_2,    KC_3,    KC_4,    KC_5,    KC_MINS, KC_GRV,  KC_EQL,  KC_6,    KC_7,    KC_8,    KC_9,    KC_0,    KC_BSPC,
+        KC_TAB,  KC_Q,    KC_W,    KC_F,    KC_P,    KC_B,    KC_LBRC, KC_BSLS, KC_RBRC, KC_J,    KC_L,    KC_U,    KC_Y,    KC_SCLN, KC_DEL,
+        KC_BSPC, KC_A,    KC_R,    KC_S,    KC_T,    KC_G,    _______, KC_QUOT, _______, KC_M,    KC_N,    KC_E,    KC_I,    KC_O,    KC_ENT,
+        KC_LSFT, KC_Z,    KC_X,    KC_C,    KC_D,    KC_V,    _______, _______, _______, KC_K,    KC_H,    KC_COMM, KC_DOT,  KC_SLSH, KC_SAPS,
+        KC_LCTL, MO(_FN), KC_LALT, KC_LGUI, KC_SPC,  KC_SPC,  KC_SPC,  TOGGLE,  KC_RALT, LOWER,   RAISE,   KC_LEFT, KC_DOWN, KC_UP,   KC_RGHT
     ),
-    [_QTY] = LAYOUT_ortho_5x15(
+    [_QWERTY] = LAYOUT_ortho_5x15(
+        _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
+        _______, KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,    _______, _______, _______, KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,    _______,
+        _______, KC_A,    KC_S,    KC_D,    KC_F,    KC_G,    _______, _______, _______, KC_H,    KC_J,    KC_K,    KC_L,    KC_SCLN, _______,
+        _______, KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,    _______, _______, _______, KC_N,    KC_M,    KC_COMM, KC_DOT,  KC_SLSH, _______,
+        _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, MO(_QWERTYE), _______, _______, _______, _______
+    ),
+    [_QWERTYE] = LAYOUT_ortho_5x15(
+        _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, KC_MINS, KC_EQL,  _______,
+        _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, KC_LBRC, KC_RBRC, _______,
+        _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, KC_QUOT, _______,
+        _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
+        _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______
+    ),
+    [_QWERTYV] = LAYOUT_ortho_5x15(
         _______, KC_1,    KC_2,    KC_3,    KC_4,    KC_5,    KC_6,    KC_7,    KC_8,    KC_9,    KC_0,    KC_MINS, KC_EQL,  XXXXXXX, _______,
         _______, KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,    KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,    KC_LBRC, KC_RBRC, KC_BSLS, _______,
         _______, KC_A,    KC_S,    KC_D,    KC_F,    KC_G,    KC_H,    KC_J,    KC_K,    KC_L,    KC_SCLN, KC_QUOT, XXXXXXX, XXXXXXX, _______,
@@ -74,21 +90,21 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = { // clang-format o
         _______, _______, _______, _______, _______, _______, M_GRH,   _______, M_GSAC,  _______, _______, _______, _______, _______, _______,
         _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, KC_HOME, KC_END,  _______, _______, _______
     ),
-    [_LWR] = LAYOUT_ortho_5x15(
-        KC_GRV,  _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
-        KC_TILD, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, KC_BSLS,
-        _______, KC_SLSH, KC_QUES, KC_PLUS, KC_MINS, KC_DQUO, _______, _______, _______, KC_HOME, KC_LBRC, KC_RBRC, _______, _______, KC_PIPE,
-        _______, _______, _______, KC_EQL,  KC_UNDS, KC_QUOT, _______, _______, _______, KC_END,  KC_LCBR, KC_RCBR, _______, _______, _______,
-        _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______
-    ),
-    [_RSE] = LAYOUT_ortho_5x15(
+    [_LOWER] = LAYOUT_ortho_5x15(
         _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
         _______, V_UP,    KC_UP,   V_DOWN,  _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
         _______, KC_LEFT, KC_DOWN, KC_RGHT, _______, V_MID,   _______, _______, _______, _______, _______, _______, _______, _______, _______,
         _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
         _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______
     ),
-    [_MSE] = LAYOUT_ortho_5x15(
+    [_RAISE] = LAYOUT_ortho_5x15(
+        KC_GRV,  _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
+        KC_TILD, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, KC_BSLS,
+        _______, KC_CIRC, _______, KC_PLUS, KC_MINS, KC_DQUO, _______, _______, _______, KC_HOME, KC_LBRC, KC_RBRC, _______, KC_DLR,  KC_PIPE,
+        _______, _______, _______, KC_EQL,  KC_UNDS, KC_QUOT, _______, _______, _______, KC_END,  KC_LCBR, KC_RCBR, _______, _______, _______,
+        _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______
+    ),
+    [_MOUSE] = LAYOUT_ortho_5x15(
         _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
         _______, KC_BTN1, KC_MS_U, KC_BTN2, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
         KC_WH_D, KC_MS_L, KC_MS_D, KC_MS_R, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
@@ -147,23 +163,23 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         case LOWER:
             if (record->event.pressed) {
                 layer_on(_FN);
-                layer_on(_LWR);
+                layer_on(_LOWER);
             } else {
                 layer_off(_FN);
-                layer_off(_LWR);
+                layer_off(_LOWER);
             }
             return false;
         case RAISE:
             if (record->event.pressed) {
                 layer_on(_FN);
-                layer_on(_RSE);
+                layer_on(_RAISE);
             } else {
                 layer_off(_FN);
-                layer_off(_RSE);
+                layer_off(_RAISE);
             }
             return false;
         case TOGGLE:
-            if (record->event.pressed) layer_invert(_QTY);
+            if (record->event.pressed) layer_invert(_QWERTY);
             return false;
         default:
             return true; // Process all other keycodes normally
