@@ -57,7 +57,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = { // clang-format o
         KC_ESC,  KC_1,    KC_2,    KC_3,    KC_4,    KC_5,    KC_MINS, KC_GRV,  KC_EQL, KC_6,    KC_7,    KC_8,    KC_9,    KC_0,    KC_BSPC,
         KC_TAB,  KC_Q,    KC_W,    KC_F,    KC_P,    KC_B,    KC_P7,   KC_P8,   KC_P9,  KC_J,    KC_L,    KC_U,    KC_Y,    KC_SCLN, KC_DEL,
         KC_BSPC, KC_A,    KC_R,    KC_S,    KC_T,    KC_G,    KC_P4,   KC_P5,   KC_P6,  KC_M,    KC_N,    KC_E,    KC_I,    KC_O,    KC_QUOT,
-        KC_SAPS, KC_Z,    KC_X,    KC_C,    KC_D,    KC_V,    KC_P1,   KC_P2,   KC_P3,  KC_K,    KC_H,    KC_COMM, KC_DOT,  KC_SLSH, KC_ENT,
+        KC_LSFT, KC_Z,    KC_X,    KC_C,    KC_D,    KC_V,    KC_P1,   KC_P2,   KC_P3,  KC_K,    KC_H,    KC_COMM, KC_DOT,  KC_SLSH, KC_ENT,
         KC_LCTL, KC_LALT, KC_LGUI, LOWER,   KC_SPC,  KC_SPC,  KC_SPC,  KC_P0,   TOGGLE, KC_RALT, RAISE,   KC_LBRC, KC_RBRC, KC_BSLS, KC_RSFT
     ),
     [_QWERTY] = LAYOUT_ortho_5x15(
@@ -65,7 +65,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = { // clang-format o
         _______, KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,    _______, _______, _______, KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,    _______,
         _______, KC_A,    KC_S,    KC_D,    KC_F,    KC_G,    _______, _______, _______, KC_H,    KC_J,    KC_K,    KC_L,    KC_SCLN, _______,
         _______, KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,    _______, _______, _______, KC_N,    KC_M,    KC_COMM, KC_DOT,  KC_SLSH, _______,
-        _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______
+        _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, KC_MINS, _______
     ),
     [_FN] = LAYOUT_ortho_5x15(
         KC_F12,  KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,   KC_BRID, KC_MPLY, KC_BRIU, KC_F6,   KC_F7,   KC_F8,   KC_F9,   KC_F10,  KC_F11,
@@ -84,8 +84,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = { // clang-format o
     [_RAISE] = LAYOUT_ortho_5x15(
         KC_GRV,  _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
         KC_TILD, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, KC_BSLS,
-        _______, KC_CIRC, _______, _______, KC_MINS, KC_PLUS, _______, _______, _______, KC_DQUO, KC_LBRC, KC_RBRC, _______, KC_DLR,  KC_PIPE,
-        _______, _______, _______, _______, KC_UNDS, KC_EQL,  _______, _______, _______, KC_QUOT, KC_LCBR, KC_RCBR, _______, _______, _______,
+        _______, KC_CIRC, _______, _______, KC_MINS, _______, _______, _______, _______, _______, KC_PLUS, _______, _______, KC_DLR,  KC_PIPE,
+        _______, _______, _______, _______, KC_UNDS, _______, _______, _______, _______, _______, KC_EQL, _______, _______, _______, _______,
         _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______
     ),
     [_MOUSE] = LAYOUT_ortho_5x15(
@@ -106,8 +106,31 @@ combo_t key_combos[COMBO_COUNT] = {
     COMBO(_ltoggle, TOGGLE) //
 };
 
+uint8_t mod_state;
+
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
+    mod_state = get_mods();
+
     switch (keycode) {
+        case KC_MINS: {
+            static bool eql_registered;
+            if (record->event.pressed) {
+                if (mod_state & MOD_MASK_SHIFT) {
+                    unregister_code(KC_LSFT);
+                    register_code(KC_EQL);
+                    eql_registered = true;
+                    set_mods(mod_state);
+                    return false;
+                }
+            } else {
+                if (eql_registered) {
+                    unregister_code(KC_EQL);
+                    eql_registered = false;
+                    return false;
+                }
+            }
+            return true;
+        }
         case V_UP:
             if (record->event.pressed) {
                 for (size_t i = 0; i < 10; i++) {
