@@ -38,7 +38,7 @@ enum custom_keycodes {
 enum { TD_RSFT_CAPS = 0 };
 
 qk_tap_dance_action_t tap_dance_actions[] = {
-    [TD_RSFT_CAPS] = ACTION_TAP_DANCE_DOUBLE(KC_RSFT, KC_CAPS) //
+    [TD_RSFT_CAPS] = ACTION_TAP_DANCE_DOUBLE(KC_LSFT, KC_CAPS) //
 };
 
 #define KC_SAPS TD(TD_RSFT_CAPS)
@@ -46,8 +46,6 @@ qk_tap_dance_action_t tap_dance_actions[] = {
 enum layers {
     _COLEMAK, // Colemak-DH Matrix
     _QWERTY,  // Split QWERTY
-    _QWERTYE, // Extended QWERTY
-    _QWERTYV, // Non-split QWERTY
     _FN,
     _LOWER,
     _RAISE,
@@ -56,31 +54,17 @@ enum layers {
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = { // clang-format off
     [_COLEMAK] = LAYOUT_ortho_5x15(
-        KC_ESC,  KC_1,    KC_2,    KC_3,    KC_4,    KC_5,    KC_MINS, KC_GRV,  KC_EQL,  KC_6,    KC_7,    KC_8,    KC_9,    KC_0,    KC_BSPC,
-        KC_TAB,  KC_Q,    KC_W,    KC_F,    KC_P,    KC_B,    KC_LBRC, KC_BSLS, KC_RBRC, KC_J,    KC_L,    KC_U,    KC_Y,    KC_SCLN, KC_DEL,
-        KC_BSPC, KC_A,    KC_R,    KC_S,    KC_T,    KC_G,    _______, KC_QUOT, _______, KC_M,    KC_N,    KC_E,    KC_I,    KC_O,    KC_ENT,
-        KC_LSFT, KC_Z,    KC_X,    KC_C,    KC_D,    KC_V,    _______, _______, _______, KC_K,    KC_H,    KC_COMM, KC_DOT,  KC_SLSH, KC_SAPS,
-        KC_LCTL, MO(_FN), KC_LALT, KC_LGUI, KC_SPC,  KC_SPC,  KC_SPC,  TOGGLE,  KC_RALT, LOWER,   RAISE,   KC_LEFT, KC_DOWN, KC_UP,   KC_RGHT
+        KC_ESC,  KC_1,    KC_2,    KC_3,    KC_4,    KC_5,    KC_MINS, KC_GRV,  KC_EQL, KC_6,    KC_7,    KC_8,    KC_9,    KC_0,    KC_BSPC,
+        KC_TAB,  KC_Q,    KC_W,    KC_F,    KC_P,    KC_B,    KC_P7,   KC_P8,   KC_P9,  KC_J,    KC_L,    KC_U,    KC_Y,    KC_SCLN, KC_DEL,
+        KC_BSPC, KC_A,    KC_R,    KC_S,    KC_T,    KC_G,    KC_P4,   KC_P5,   KC_P6,  KC_M,    KC_N,    KC_E,    KC_I,    KC_O,    KC_QUOT,
+        KC_SAPS, KC_Z,    KC_X,    KC_C,    KC_D,    KC_V,    KC_P1,   KC_P2,   KC_P3,  KC_K,    KC_H,    KC_COMM, KC_DOT,  KC_SLSH, KC_ENT,
+        KC_LCTL, KC_LALT, KC_LGUI, LOWER,   KC_SPC,  KC_SPC,  KC_SPC,  KC_P0,   TOGGLE, KC_RALT, RAISE,   KC_LBRC, KC_RBRC, KC_BSLS, KC_RSFT
     ),
     [_QWERTY] = LAYOUT_ortho_5x15(
         _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
         _______, KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,    _______, _______, _______, KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,    _______,
         _______, KC_A,    KC_S,    KC_D,    KC_F,    KC_G,    _______, _______, _______, KC_H,    KC_J,    KC_K,    KC_L,    KC_SCLN, _______,
         _______, KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,    _______, _______, _______, KC_N,    KC_M,    KC_COMM, KC_DOT,  KC_SLSH, _______,
-        _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, MO(_QWERTYE), _______, _______, _______, _______
-    ),
-    [_QWERTYE] = LAYOUT_ortho_5x15(
-        _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, KC_MINS, KC_EQL,  _______,
-        _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, KC_LBRC, KC_RBRC, _______,
-        _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, KC_QUOT, _______,
-        _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
-        _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______
-    ),
-    [_QWERTYV] = LAYOUT_ortho_5x15(
-        _______, KC_1,    KC_2,    KC_3,    KC_4,    KC_5,    KC_6,    KC_7,    KC_8,    KC_9,    KC_0,    KC_MINS, KC_EQL,  XXXXXXX, _______,
-        _______, KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,    KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,    KC_LBRC, KC_RBRC, KC_BSLS, _______,
-        _______, KC_A,    KC_S,    KC_D,    KC_F,    KC_G,    KC_H,    KC_J,    KC_K,    KC_L,    KC_SCLN, KC_QUOT, XXXXXXX, XXXXXXX, _______,
-        _______, KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,    KC_N,    KC_M,    KC_COMM, KC_DOT,  KC_SLSH, _______, _______, _______, _______,
         _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______
     ),
     [_FN] = LAYOUT_ortho_5x15(
@@ -88,7 +72,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = { // clang-format o
         _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
         _______, _______, _______, _______, _______, _______, _______, M_MUTE,  _______, _______, _______, _______, _______, _______, _______,
         _______, _______, _______, _______, _______, _______, M_GRH,   _______, M_GSAC,  _______, _______, _______, _______, _______, _______,
-        _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, KC_HOME, KC_END,  _______, _______, _______
+        _______, _______, _______, KC_HOME, _______, _______, _______, _______, _______, _______, KC_END,  _______, _______, _______, _______
     ),
     [_LOWER] = LAYOUT_ortho_5x15(
         _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
@@ -100,8 +84,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = { // clang-format o
     [_RAISE] = LAYOUT_ortho_5x15(
         KC_GRV,  _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
         KC_TILD, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, KC_BSLS,
-        _______, KC_CIRC, _______, KC_PLUS, KC_MINS, KC_DQUO, _______, _______, _______, KC_HOME, KC_LBRC, KC_RBRC, _______, KC_DLR,  KC_PIPE,
-        _______, _______, _______, KC_EQL,  KC_UNDS, KC_QUOT, _______, _______, _______, KC_END,  KC_LCBR, KC_RCBR, _______, _______, _______,
+        _______, KC_CIRC, _______, _______, KC_MINS, KC_PLUS, _______, _______, _______, KC_DQUO, KC_LBRC, KC_RBRC, _______, KC_DLR,  KC_PIPE,
+        _______, _______, _______, _______, KC_UNDS, KC_EQL,  _______, _______, _______, KC_QUOT, KC_LCBR, KC_RCBR, _______, _______, _______,
         _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______
     ),
     [_MOUSE] = LAYOUT_ortho_5x15(
