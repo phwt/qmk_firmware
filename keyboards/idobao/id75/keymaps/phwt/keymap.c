@@ -61,8 +61,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = { // clang-format o
     ),
     [_LOWER] = LAYOUT_ortho_5x15(
         _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
-        _______, KC_BTN1, KC_MS_U, KC_BTN2, _______, _______, _______, _______, _______, _______, V_UP,    KC_UP,   V_DOWN,  _______, _______,
-        KC_WH_D, KC_MS_L, KC_MS_D, KC_MS_R, KC_WH_U, V_MID,   _______, _______, _______, _______, KC_LEFT, KC_DOWN, KC_RGHT, _______, _______,
+        _______, V_UP,    KC_UP,   V_DOWN,  _______, _______, _______, _______, _______, _______, KC_BTN1, KC_MS_U, KC_BTN2, _______, _______,
+        KC_WH_D, KC_LEFT, KC_DOWN, KC_RGHT, KC_WH_U, V_MID,   _______, _______, _______, _______, KC_MS_L, KC_MS_D, KC_MS_R, _______, _______,
         _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
         _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______
     ),
@@ -89,14 +89,14 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         case V_UP:
             if (record->event.pressed) {
                 for (size_t i = 0; i < 10; i++) {
-                    SEND_STRING(SS_LCTL("y"));
+                    SEND_STRING(SS_LCTL("o")); // y
                 }
             }
             return false;
         case V_DOWN:
             if (record->event.pressed) {
                 for (size_t i = 0; i < 10; i++) {
-                    SEND_STRING(SS_LCTL("e"));
+                    SEND_STRING(SS_LCTL("k")); // e
                 }
             }
             return false;
