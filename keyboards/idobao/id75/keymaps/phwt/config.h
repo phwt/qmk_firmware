@@ -1,1 +1,1 @@
-#define COMBO_COUNT 2
+#define COMBO_COUNT 4

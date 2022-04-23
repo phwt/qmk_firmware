@@ -26,12 +26,15 @@ enum custom_keycodes {
     // Layers
     LOWER,
     RAISE,
-    TOGGLE
+    TOGGLE,
+    TOGGLE_ARROW,
+    TOGGLE_SYMBOL
 };
 
 enum layers {
     _QWERTY,  // QWERTY
     _COLEMAK, // Colemak-DH Matrix
+    _SYMBOL,
     _FN,
     _LOWER,
     _RAISE
@@ -52,6 +55,13 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = { // clang-format o
         _______, KC_Z,    KC_X,    KC_C,    KC_D,    KC_V,    _______, _______, _______, KC_K,    KC_H,    KC_COMM, KC_DOT,  KC_SLSH, _______,
         _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______
     ),
+    [_SYMBOL] = LAYOUT_ortho_5x15(
+        _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
+        _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
+        _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
+        _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
+        _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, KC_LBRC, KC_RBRC, KC_MINS, KC_EQL
+    ),
     [_FN] = LAYOUT_ortho_5x15(
         KC_F12,  KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,   KC_BRID, KC_MPLY, KC_BRIU, KC_F6,   KC_F7,   KC_F8,   KC_F9,   KC_F10,  KC_F11,
         _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
@@ -70,18 +80,22 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = { // clang-format o
         KC_GRV,  _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, KC_MINS, KC_EQL,  _______,
         KC_TILD, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, KC_LBRC, KC_RBRC, KC_BSLS,
         KC_CAPS, KC_CIRC, _______, _______, KC_MINS, KC_UNDS, _______, _______, _______, KC_EQL,  KC_PLUS, _______, _______, KC_DLR,  KC_PIPE,
-        _______, _______, _______, _______, KC_LCBR, KC_RCBR, _______, _______, _______, KC_LBRC, KC_RBRC, _______, _______, _______, _______,
+        _______, _______, _______, KC_LCBR, KC_RCBR, _______, _______, _______, _______, _______, KC_LBRC, KC_RBRC, _______, _______, _______,
         _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______
     )
 };
 // clang-format on
 
-const uint16_t PROGMEM _reset[]   = {LOWER, RAISE, KC_ESC, COMBO_END};
-const uint16_t PROGMEM _ltoggle[] = {LOWER, RAISE, COMBO_END};
+const uint16_t PROGMEM _reset[]        = {LOWER, RAISE, KC_ESC, COMBO_END};
+const uint16_t PROGMEM _ltoggle[]      = {LOWER, RAISE, COMBO_END};
+const uint16_t PROGMEM _arrowtoggle[]  = {KC_LBRC, KC_RBRC, KC_MINS, KC_EQL, COMBO_END};
+const uint16_t PROGMEM _symboltoggle[] = {KC_LEFT, KC_DOWN, KC_UP, KC_RGHT, COMBO_END};
 
 combo_t key_combos[COMBO_COUNT] = {
-    COMBO(_reset, RESET),   //
-    COMBO(_ltoggle, TOGGLE) //
+    COMBO(_reset, RESET),               //
+    COMBO(_ltoggle, TOGGLE),            //
+    COMBO(_arrowtoggle, TOGGLE_ARROW),  //
+    COMBO(_symboltoggle, TOGGLE_SYMBOL) //
 };
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
@@ -132,6 +146,12 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             return false;
         case TOGGLE:
             if (record->event.pressed) layer_invert(_COLEMAK);
+            return false;
+        case TOGGLE_ARROW:
+            if (record->event.pressed) layer_off(_SYMBOL);
+            return false;
+        case TOGGLE_SYMBOL:
+            if (record->event.pressed) layer_on(_SYMBOL);
             return false;
         default:
             return true; // Process all other keycodes normally
