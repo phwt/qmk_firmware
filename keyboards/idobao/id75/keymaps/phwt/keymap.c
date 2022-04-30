@@ -43,10 +43,10 @@ enum layers {
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = { // clang-format off
     [_QWERTY] = LAYOUT_ortho_5x15(
         KC_ESC,  KC_1,    KC_2,    KC_3,    KC_4,    KC_5,    KC_MINS, KC_GRV,  KC_EQL, KC_6,    KC_7,    KC_8,    KC_9,    KC_0,    KC_BSPC,
-        KC_TAB,  KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,    KC_P7,   KC_P8,   KC_P9,  KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,    KC_DEL,
-        KC_BSPC, KC_A,    KC_S,    KC_D,    KC_F,    KC_G,    KC_P4,   KC_P5,   KC_P6,  KC_H,    KC_J,    KC_K,    KC_L,    KC_SCLN, KC_QUOT,
-        KC_LSFT, KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,    KC_P1,   KC_P2,   KC_P3,  KC_N,    KC_M,    KC_COMM, KC_DOT,  KC_UP,   KC_ENT,
-        KC_LCTL, MO(_FN), KC_LALT, KC_LGUI, KC_SPC,  KC_SPC,  KC_SPC,  KC_P0,   TOGGLE, LOWER,   RAISE,   KC_SLSH, KC_LEFT, KC_DOWN, KC_RGHT
+        KC_TAB,  KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,    KC_P7,   KC_P8,   KC_P9,  KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,    KC_QUOT,
+        KC_BSPC, KC_A,    KC_S,    KC_D,    KC_F,    KC_G,    KC_P4,   KC_P5,   KC_P6,  KC_H,    KC_J,    KC_K,    KC_L,    KC_SCLN, KC_ENT,
+        KC_LSFT, KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,    KC_P1,   KC_P2,   KC_P3,  KC_N,    KC_M,    KC_COMM, KC_DOT,  KC_UP,   KC_SLSH,
+        KC_LCTL, MO(_FN), KC_LALT, KC_LGUI, KC_SPC,  KC_SPC,  KC_SPC,  KC_P0,   TOGGLE, LOWER,   RAISE,   KC_RALT, KC_LEFT, KC_DOWN, KC_RGHT
     ),
     [_COLEMAK] = LAYOUT_ortho_5x15(
         _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
@@ -77,7 +77,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = { // clang-format o
         _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______
     ),
     [_RAISE] = LAYOUT_ortho_5x15(
-        KC_GRV,  _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, KC_MINS, KC_EQL,  _______,
+        KC_GRV,  _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, KC_MINS, KC_EQL,  KC_DEL,
         KC_TILD, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, KC_LBRC, KC_RBRC, KC_BSLS,
         KC_CAPS, KC_CIRC, _______, _______, KC_MINS, KC_UNDS, _______, _______, _______, KC_EQL,  KC_PLUS, _______, _______, KC_DLR,  KC_PIPE,
         _______, _______, _______, KC_LCBR, KC_RCBR, _______, _______, _______, _______, _______, KC_LBRC, KC_RBRC, _______, _______, _______,
@@ -87,13 +87,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = { // clang-format o
 // clang-format on
 
 const uint16_t PROGMEM _reset[]        = {LOWER, RAISE, KC_ESC, COMBO_END};
-const uint16_t PROGMEM _ltoggle[]      = {LOWER, RAISE, COMBO_END};
 const uint16_t PROGMEM _arrowtoggle[]  = {KC_LBRC, KC_RBRC, KC_MINS, KC_EQL, COMBO_END};
 const uint16_t PROGMEM _symboltoggle[] = {KC_SLSH, KC_LEFT, KC_DOWN, KC_RGHT, COMBO_END};
 
 combo_t key_combos[COMBO_COUNT] = {
     COMBO(_reset, RESET),               //
-    COMBO(_ltoggle, TOGGLE),            //
     COMBO(_arrowtoggle, TOGGLE_ARROW),  //
     COMBO(_symboltoggle, TOGGLE_SYMBOL) //
 };
