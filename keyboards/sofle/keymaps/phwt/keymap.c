@@ -154,8 +154,24 @@ bool oled_task_user(void) {
 
 #endif
 
+int knob_pressed           = 0;
+int knob_action_brightness = 0;
+
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     switch (keycode) {
+        case KC_MPLY:
+            if (record->event.pressed) {
+                knob_pressed = 1;
+                return false;
+            } else {
+                knob_pressed = 0;
+                if (knob_action_brightness) {
+                    knob_action_brightness = 0;
+                } else {
+                    tap_code(KC_MPLY);
+                }
+                return true;
+            }
         case QWERTY:
             if (record->event.pressed) {
                 set_single_persistent_default_layer(_QWERTY);
@@ -233,10 +249,11 @@ const key_override_t **key_overrides = (const key_override_t *[]){
 
 bool encoder_update_user(uint8_t index, bool clockwise) {
     if (index == 0) {
-        if (clockwise) {
-            tap_code(KC_VOLU);
+        if (knob_pressed) {
+            knob_action_brightness = 1;
+            (clockwise) ? tap_code(KC_BRIU) : tap_code(KC_BRID);
         } else {
-            tap_code(KC_VOLD);
+            (clockwise) ? tap_code(KC_VOLU) : tap_code(KC_VOLD);
         }
     }
     return true;
