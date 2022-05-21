@@ -81,56 +81,49 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 #ifdef OLED_ENABLE
 
 static void render_logo(void) {
-    static const char PROGMEM qmk_logo[] = {
-        0x80,0x81,0x82,0x83,0x84,0x85,0x86,0x87,0x88,0x89,0x8a,0x8b,0x8c,0x8d,0x8e,0x8f,0x90,0x91,0x92,0x93,0x94,
-        0xa0,0xa1,0xa2,0xa3,0xa4,0xa5,0xa6,0xa7,0xa8,0xa9,0xaa,0xab,0xac,0xad,0xae,0xaf,0xb0,0xb1,0xb2,0xb3,0xb4,
-        0xc0,0xc1,0xc2,0xc3,0xc4,0xc5,0xc6,0xc7,0xc8,0xc9,0xca,0xcb,0xcc,0xcd,0xce,0xcf,0xd0,0xd1,0xd2,0xd3,0xd4,0
+    static const char PROGMEM logo[] = {
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,  0,  0, 0, 0, 0, 240, 240, 240, 0, 0, 0, 0, 0, 0,   0,   0,   0, 0, 0, 0, 0,  0,   0,   0,   0,  0, 0,  0,   0,   0,   0,   0, 0, 0, 0, 0, 0, 0, 224, 224, 224, 0,   0,   0,   0,   0,   0,   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,  254, 254, 254, 124, 14, 14, 6, 14, 30, 254, 252, 248, 0, 0, 0, 0, 255, 255, 255, 14, 14, 6, 14, 30, 254, 252, 248, 0, 0, 62, 254, 254, 224, 0, 0, 224, 224, 224, 128, 0, 192, 252, 254, 126, 2, 0, 14, 14, 14, 255, 255, 255, 14, 14, 14, 14, 14, 14, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 255, 255, 255, 124, 240, 224, 224, 224, 248, 127, 63, 31, 0, 0, 0, 0, 255, 255, 255, 0, 0, 0, 0, 0, 255, 255, 255, 0, 0, 0, 3, 63, 255, 252, 255, 31, 3, 15, 255, 248, 255, 127, 7, 0, 0, 0, 0, 0, 0, 31,  127, 127, 240, 224, 224, 224, 224, 224, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 31, 31,  31,  0,   0,   0,  0,  0, 0,  0,  0,   0,   0,   0, 0, 0, 0, 0,   0,   0,   0,  0,  0, 0,  0,  0,   0,   0,   0, 0, 0,  0,   0,   0,   0, 0, 0,   0,   0,   0,   0, 0,   0,   0,   0,   0, 0, 0,  0,  0,  0,   0,   0,   0,  0,  0,  0,  0,  0,  0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     };
 
-    oled_write_P(qmk_logo, false);
+    oled_write_raw_P(logo, sizeof(logo));
 }
 
 static void print_status_narrow(void) {
     // Print current mode
     oled_write_P(PSTR("\n\n"), false);
-    oled_write_ln_P(PSTR("MODE"), false);
-    oled_write_ln_P(PSTR(""), false);
-    if (keymap_config.swap_lctl_lgui) {
-        oled_write_ln_P(PSTR("MAC"), false);
+    if (IS_LAYER_ON(_WINDOWS)) {
+        oled_write_ln_P(PSTR("M > W"), false);
     } else {
-        oled_write_ln_P(PSTR("WIN"), false);
+        oled_write_ln_P(PSTR("M < W"), false);
     }
 
     switch (get_highest_layer(default_layer_state)) {
         case _QWERTY:
-            oled_write_ln_P(PSTR("QWERTY"), false);
+            oled_write_P(PSTR("Q < C"), false);
             break;
         case _COLEMAK:
-            oled_write_ln_P(PSTR("Colemak"), false);
+            oled_write_P(PSTR("Q > C"), false);
             break;
         default:
             oled_write_P(PSTR("Undef"), false);
     }
     oled_write_P(PSTR("\n\n"), false);
     // Print current layer
-    oled_write_ln_P(PSTR("LAYER"), false);
-    switch (get_highest_layer(layer_state)) {
-        case _COLEMAK:
-        case _QWERTY:
-            oled_write_P(PSTR("Base\n"), false);
-            break;
-        case _RAISE:
-            oled_write_P(PSTR("Raise"), false);
-            break;
-        case _LOWER:
-            oled_write_P(PSTR("Lower"), false);
-            break;
-        case _ADJUST:
-            oled_write_P(PSTR("Adj\n"), false);
-            break;
-        default:
-            oled_write_ln_P(PSTR("Undef"), false);
-    }
+
+    int highest_layer = get_highest_layer(layer_state);
+    (highest_layer == _COLEMAK || highest_layer == _QWERTY) ? oled_write_P(PSTR(">"), false) : oled_write_P(PSTR(" "), false);
+    oled_write_ln_P(PSTR("BSE"), false);
+
+    (highest_layer == _RAISE) ? oled_write_P(PSTR(">"), false) : oled_write_P(PSTR(" "), false);
+    oled_write_ln_P(PSTR("RSE"), false);
+
+    (highest_layer == _LOWER) ? oled_write_P(PSTR(">"), false) : oled_write_P(PSTR(" "), false);
+    oled_write_ln_P(PSTR("LWR"), false);
+
+    (highest_layer == _ADJUST) ? oled_write_P(PSTR(">"), false) : oled_write_P(PSTR(" "), false);
+    oled_write_ln_P(PSTR("ADJ"), false);
+
     oled_write_P(PSTR("\n\n"), false);
     led_t led_usb_state = host_keyboard_led_state();
     oled_write_ln_P(PSTR("CPSLK"), led_usb_state.caps_lock);
