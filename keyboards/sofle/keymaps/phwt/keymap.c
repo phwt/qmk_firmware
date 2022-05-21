@@ -24,15 +24,15 @@ enum custom_keycodes {
 #define TH_RGHT LT(0, KC_RGHT) // Hold for End
 #define TH_UP LT(0, KC_UP)     // Hold for Page Up
 #define TH_DOWN LT(0, KC_DOWN) // Hold for Page Down
-#define TH_LOCK LT(0, KC_MPLY) // Hold to lock (macOS)
+#define TH_LOCK LT(0, KC_ESC)  // Hold to lock
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     // clang-format off
     [_QWERTY] = LAYOUT(
-        KC_ESC,  KC_1,    KC_2,    KC_3,    KC_4,    KC_5,                         KC_6,    KC_7,    KC_8,    KC_9,    KC_0,    TH_BSPC,
+        TH_LOCK, KC_1,    KC_2,    KC_3,    KC_4,    KC_5,                         KC_6,    KC_7,    KC_8,    KC_9,    KC_0,    TH_BSPC,
         KC_TAB,  KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,                         KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,    KC_DEL,
         TH_BSPC, KC_A,    KC_S,    KC_D,    KC_F,    KC_G,                         KC_H,    KC_J,    KC_K,    KC_L,    KC_SCLN, KC_QUOT,
-        KC_LSFT, KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,    TH_LOCK,    XXXXXXX, KC_N,    KC_M,    KC_COMM, KC_DOT,  KC_SLSH, KC_RSFT,
+        KC_LSFT, KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,    KC_MPLY,    XXXXXXX, KC_N,    KC_M,    KC_COMM, KC_DOT,  KC_SLSH, KC_RSFT,
                           KC_LCTL, KC_LALT, KC_LGUI, KC_SPC,  LOWER,        RAISE, KC_ENT,  KC_RGUI, KC_LBRC, KC_RBRC
     ),
     [_COLEMAK] = LAYOUT(
@@ -64,8 +64,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                           _______, _______, _______, _______, ADJUST,     _______, _______, _______, _______, _______
     ),
     [_ADJUST] = LAYOUT(
-        _______, _______, _______, _______, _______, _______,                      _______, _______, _______, _______, _______, _______,
-        RESET,     TOGOS, QWERTY,  COLEMAK, _______, _______,                      _______, _______, _______, _______, _______, _______,
+        RESET,   _______, _______, _______, _______, _______,                      _______, _______, _______, _______, _______, _______,
+        _______, TOGOS,   QWERTY,  COLEMAK, _______, _______,                      _______, _______, _______, _______, _______, _______,
         _______, _______, _______, _______, _______, _______,                      _______, _______, _______, _______, _______, _______,
         _______, _______, _______, _______, _______, _______, _______,    _______, _______, _______, _______, _______, _______, _______,
                           _______, _______, _______, _______, XXXXXXX,    XXXXXXX, _______, _______, _______, _______
@@ -196,10 +196,14 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             return true;
         case TH_LOCK:
             if (record->event.pressed && !record->tap.count) {
-                register_code(KC_LGUI);
-                register_code(KC_LCTRL);
-                register_code(KC_Q);
-                clear_keyboard();
+                if (IS_LAYER_ON(_WINDOWS)) {
+                    tap_code(KC_SLEP);
+                } else {
+                    register_code(KC_LGUI);
+                    register_code(KC_LCTRL);
+                    register_code(KC_Q);
+                    clear_keyboard();
+                }
                 return false;
             }
             return true;
