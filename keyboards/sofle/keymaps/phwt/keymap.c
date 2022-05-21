@@ -19,12 +19,17 @@ enum custom_keycodes {
 #define RAISE OSL(_RAISE)
 #define ADJUST MO(_ADJUST)
 
+#define OS_LSFT OSM(MOD_LSFT)
+#define OS_LCTL OSM(MOD_LCTL)
+#define OS_LALT OSM(MOD_LALT)
+
 #define TH_BSPC LT(0, KC_BSPC) // Hold for Alt + Backspace
 #define TH_LEFT LT(0, KC_LEFT) // Hold for Home
 #define TH_RGHT LT(0, KC_RGHT) // Hold for End
 #define TH_UP LT(0, KC_UP)     // Hold for Page Up
 #define TH_DOWN LT(0, KC_DOWN) // Hold for Page Down
 #define TH_LOCK LT(0, KC_ESC)  // Hold to lock
+#define TH_SPLT LT(0, KC_SPC)  // Hold for macOS Spotlight
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     // clang-format off
@@ -33,7 +38,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         KC_TAB,  KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,                         KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,    KC_DEL,
         TH_BSPC, KC_A,    KC_S,    KC_D,    KC_F,    KC_G,                         KC_H,    KC_J,    KC_K,    KC_L,    KC_SCLN, KC_QUOT,
         KC_LSFT, KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,    KC_MPLY,    XXXXXXX, KC_N,    KC_M,    KC_COMM, KC_DOT,  KC_SLSH, KC_RSFT,
-                          KC_LCTL, KC_LALT, KC_LGUI, KC_SPC,  LOWER,        RAISE, KC_ENT,  KC_RGUI, KC_LBRC, KC_RBRC
+                          OS_LCTL, OS_LALT, KC_LGUI, TH_SPLT, LOWER,        RAISE, KC_ENT,  KC_RGUI, KC_LBRC, KC_RBRC
     ),
     [_COLEMAK] = LAYOUT(
         _______, _______, _______, _______, _______, _______,                      _______, _______, _______, _______, _______, _______,
@@ -47,7 +52,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         _______, _______, _______, _______, _______, _______,                      _______, _______, _______, _______, _______, _______,
         _______, _______, _______, _______, _______, _______,                      _______, _______, _______, _______, _______, _______,
         _______, _______, _______, _______, _______, _______, _______,    _______, _______, _______, _______, _______, _______, _______,
-                          _______, KC_LGUI, KC_LALT, _______, _______,    _______, _______, _______, _______, _______
+                          _______, KC_LGUI, OS_LALT, _______, _______,    _______, _______, _______, _______, _______
     ),
     [_LOWER] = LAYOUT(
         KC_F12,  KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,                        KC_F6,   KC_F7,   KC_F8,   KC_F9,   KC_F10,  KC_F11,
@@ -199,11 +204,14 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                 if (IS_LAYER_ON(_WINDOWS)) {
                     tap_code(KC_SLEP);
                 } else {
-                    register_code(KC_LGUI);
-                    register_code(KC_LCTRL);
-                    register_code(KC_Q);
-                    clear_keyboard();
+                    tap_code16(G(C(KC_Q)));
                 }
+                return false;
+            }
+            return true;
+        case TH_SPLT:
+            if (record->event.pressed && !record->tap.count) {
+                tap_code16(G(KC_SPC));
                 return false;
             }
             return true;
@@ -211,8 +219,8 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     return true;
 }
 
-const key_override_t ctrl_esc_term         = ko_make_basic(MOD_MASK_CTRL, KC_ESC, C(KC_GRV));
-const key_override_t gui_esc_cycle         = ko_make_basic(MOD_MASK_GUI, KC_ESC, G(KC_GRV));
+const key_override_t ctrl_esc_term         = ko_make_basic(MOD_MASK_CTRL, TH_LOCK, C(KC_GRV));
+const key_override_t gui_esc_cycle         = ko_make_basic(MOD_MASK_GUI, TH_LOCK, G(KC_GRV));
 const key_override_t shift_backspace_sleep = ko_make_basic(MOD_MASK_SHIFT, KC_BSPC, KC_SLEP);
 
 // This globally defines all key overrides to be used
