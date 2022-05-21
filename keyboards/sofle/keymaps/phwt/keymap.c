@@ -12,7 +12,8 @@ enum sofle_layers {
 enum custom_keycodes {
     QWERTY = SAFE_RANGE, //
     COLEMAK,
-    TOGOS
+    TOGOS,
+    M_LANG
 };
 
 #define LOWER OSL(_LOWER)
@@ -29,7 +30,6 @@ enum custom_keycodes {
 #define TH_UP LT(0, KC_UP)     // Hold for Page Up
 #define TH_DOWN LT(0, KC_DOWN) // Hold for Page Down
 #define TH_LOCK LT(0, KC_ESC)  // Hold to lock
-#define TH_SPLT LT(0, KC_SPC)  // Hold for macOS Spotlight
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     // clang-format off
@@ -38,7 +38,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         KC_TAB,  KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,                         KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,    KC_DEL,
         TH_BSPC, KC_A,    KC_S,    KC_D,    KC_F,    KC_G,                         KC_H,    KC_J,    KC_K,    KC_L,    KC_SCLN, KC_QUOT,
         KC_LSFT, KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,    KC_MPLY,    XXXXXXX, KC_N,    KC_M,    KC_COMM, KC_DOT,  KC_SLSH, KC_RSFT,
-                          OS_LCTL, OS_LALT, KC_LGUI, TH_SPLT, LOWER,        RAISE, KC_ENT,  KC_RGUI, KC_LBRC, KC_RBRC
+                          OS_LCTL, OS_LALT, KC_LGUI, KC_SPC,  LOWER,        RAISE, KC_ENT,  KC_RGUI, KC_LBRC, KC_RBRC
     ),
     [_COLEMAK] = LAYOUT(
         _______, _______, _______, _______, _______, _______,                      _______, _______, _______, _______, _______, _______,
@@ -56,10 +56,10 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     ),
     [_LOWER] = LAYOUT(
         KC_F12,  KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,                        KC_F6,   KC_F7,   KC_F8,   KC_F9,   KC_F10,  KC_F11,
-        _______, KC_BTN1, KC_MS_U, KC_BTN2, _______, _______,                      _______, _______, _______, _______, _______, _______,
-        KC_CAPS, KC_MS_L, KC_MS_D, KC_MS_R, _______, _______,                      _______, _______, _______, _______, _______, _______,
+        _______, _______, _______, _______, _______, _______,                      _______, _______, _______, _______, _______, _______,
+        KC_CAPS, _______, _______, _______, _______, _______,                      _______, _______, _______, _______, _______, _______,
         _______, _______, _______, _______, _______, _______, _______,    _______, _______, _______, _______, _______, _______, _______,
-                          _______, _______, _______, _______, _______,    _______, _______, _______, _______, _______
+                          _______, _______, _______, _______, _______,     M_LANG, _______, _______, _______, _______
     ),
     [_RAISE] = LAYOUT(
         KC_GRV,  _______, _______, _______, _______, _______,                      _______, _______, _______, KC_MINS, KC_EQL,  KC_DEL,
@@ -178,6 +178,16 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         case TOGOS:
             if (record->event.pressed) layer_invert(_WINDOWS);
             return false;
+        case M_LANG:
+            if (record->event.pressed && !record->tap.count) {
+                if (IS_LAYER_ON(_WINDOWS)) {
+                    tap_code16(G(KC_SPC));
+                } else {
+                    tap_code16(A(KC_SPC));
+                }
+                return false;
+            }
+            return true;
         case TH_BSPC:
             if (record->event.pressed && !record->tap.count) {
                 tap_code16(A(KC_BSPC));
@@ -215,12 +225,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                 } else {
                     tap_code16(G(C(KC_Q)));
                 }
-                return false;
-            }
-            return true;
-        case TH_SPLT:
-            if (record->event.pressed && !record->tap.count) {
-                tap_code16(G(KC_SPC));
                 return false;
             }
             return true;
