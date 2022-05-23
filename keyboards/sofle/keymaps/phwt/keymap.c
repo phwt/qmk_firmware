@@ -12,8 +12,7 @@ enum sofle_layers {
 enum custom_keycodes {
     QWERTY = SAFE_RANGE, //
     COLEMAK,
-    TOGOS,
-    M_LANG
+    TOGOS
 };
 
 #define LOWER OSL(_LOWER)
@@ -178,14 +177,19 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         case TOGOS:
             if (record->event.pressed) layer_invert(_WINDOWS);
             return false;
-        case M_LANG:
+        case KC_ENT: // Enter as space when modifier is pressed
             if (record->event.pressed && !record->tap.count) {
-                if (IS_LAYER_ON(_WINDOWS)) {
-                    tap_code16(G(KC_SPC));
-                } else {
-                    tap_code16(A(KC_SPC));
+                if (keyboard_report->mods) {
+                    if (get_mods() & MOD_MASK_GUI)
+                        register_code(KC_LGUI);
+                    else if (get_mods() & MOD_MASK_ALT)
+                        register_code(KC_LALT);
+
+                    wait_ms(100);
+                    tap_code16(KC_SPC);
+                    clear_keyboard();
+                    return false;
                 }
-                return false;
             }
             return true;
         case TH_BSPC:
