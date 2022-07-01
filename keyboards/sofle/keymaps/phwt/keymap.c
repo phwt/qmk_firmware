@@ -30,6 +30,7 @@ enum custom_keycodes {
 #define TH_RGHT LT(0, KC_RGHT) // Hold for End
 #define TH_ESC LT(0, KC_ESC)   // Hold for Alt
 #define TH_LOCK LT(0, KC_GRV)  // Hold to lock
+#define TH_ENT LT(0, KC_ENT)   // Hold for Spotlight
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     // clang-format off
@@ -38,7 +39,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         KC_TAB,  KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,                         KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,    KC_DEL,
         TH_ESC,  KC_A,    KC_S,    KC_D,    KC_F,    KC_G,                         KC_H,    KC_J,    KC_K,    KC_L,    KC_SCLN, KC_QUOT,
         KC_LSFT, KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,    KC_MPLY,    XXXXXXX, KC_N,    KC_M,    KC_COMM, KC_DOT,  KC_SLSH, KC_RSFT,
-                          KC_LCTL, KC_LALT, KC_LGUI, KC_SPC,  KC_LCTL,     OS_SYM, KC_ENT,  KC_RGUI, XXXXXXX, XXXXXXX
+                          KC_LCTL, KC_LALT, KC_LGUI, KC_SPC,  KC_LCTL,     OS_SYM, TH_ENT,  KC_RGUI, XXXXXXX, XXXXXXX
     ),
     [_COLEMAK] = LAYOUT(
         _______, _______, _______, _______, _______, _______,                      _______, _______, _______, _______, _______, _______,
@@ -209,6 +210,15 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                 }
                 return false;
             }
+            return true;
+        case TH_ENT:
+            if (record->event.pressed && !record->tap.count) {
+                register_code(KC_LGUI);
+                tap_code(KC_SPC);
+                clear_keyboard();
+                return false;
+            }
+            clear_keyboard();
             return true;
         case M_BHREG:
             if (record->event.pressed) {
