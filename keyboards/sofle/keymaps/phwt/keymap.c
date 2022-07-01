@@ -4,9 +4,9 @@ enum sofle_layers {
     _QWERTY,
     _COLEMAK,
     _WINDOWS,
-    _LOWER,
-    _RAISE,
-    _HIGHER,
+
+    _SYM,
+    _NUM,
     _ADJUST,
 };
 
@@ -16,30 +16,25 @@ enum custom_keycodes {
     TOGOS
 };
 
-#define LOWER OSL(_LOWER)
-#define RAISE OSL(_RAISE)
-#define HIGHER OSL(_HIGHER)
+#define OS_SYM OSL(_SYM)
+#define OS_NUM OSL(_NUM)
+#define TO_DEF TO(_QWERTY)
 #define ADJUST MO(_ADJUST)
-
-#define OS_LSFT OSM(MOD_LSFT)
-#define OS_LCTL OSM(MOD_LCTL)
-#define OS_LALT OSM(MOD_LALT)
 
 #define TH_BSPC LT(0, KC_BSPC) // Hold for Alt + Backspace
 #define TH_LEFT LT(0, KC_LEFT) // Hold for Home
 #define TH_RGHT LT(0, KC_RGHT) // Hold for End
-#define TH_UP LT(0, KC_UP)     // Hold for Page Up
-#define TH_DOWN LT(0, KC_DOWN) // Hold for Page Down
-#define TH_LOCK LT(0, KC_ESC)  // Hold to lock
+#define TH_ESC LT(0, KC_ESC)   // Hold for Alt
+#define TH_LOCK LT(0, KC_GRV)  // Hold to lock
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     // clang-format off
     [_QWERTY] = LAYOUT(
         TH_LOCK, KC_1,    KC_2,    KC_3,    KC_4,    KC_5,                         KC_6,    KC_7,    KC_8,    KC_9,    KC_0,    TH_BSPC,
         KC_TAB,  KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,                         KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,    KC_DEL,
-        TH_BSPC, KC_A,    KC_S,    KC_D,    KC_F,    KC_G,                         KC_H,    KC_J,    KC_K,    KC_L,    KC_SCLN, KC_QUOT,
+        TH_ESC,  KC_A,    KC_S,    KC_D,    KC_F,    KC_G,                         KC_H,    KC_J,    KC_K,    KC_L,    KC_SCLN, KC_QUOT,
         KC_LSFT, KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,    KC_MPLY,    XXXXXXX, KC_N,    KC_M,    KC_COMM, KC_DOT,  KC_SLSH, KC_RSFT,
-                          KC_LCTL, KC_LALT, KC_LGUI, KC_SPC,  LOWER,        RAISE, KC_ENT,  KC_RGUI, KC_LBRC, KC_RBRC
+                          KC_LCTL, KC_LALT, KC_LGUI, KC_SPC,  KC_LCTL,     OS_SYM, KC_ENT,  KC_RGUI, XXXXXXX, XXXXXXX
     ),
     [_COLEMAK] = LAYOUT(
         _______, _______, _______, _______, _______, _______,                      _______, _______, _______, _______, _______, _______,
@@ -53,28 +48,21 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         _______, _______, _______, _______, _______, _______,                      _______, _______, _______, _______, _______, _______,
         _______, _______, _______, _______, _______, _______,                      _______, _______, _______, _______, _______, _______,
         _______, _______, _______, _______, _______, _______, _______,    _______, _______, _______, _______, _______, _______, _______,
-                          _______, KC_LGUI, KC_LALT, _______, _______,    _______, _______, _______, _______, _______
+                          _______, _______, KC_LCTL, _______, KC_LGUI,    _______, _______, _______, _______, _______
     ),
-    [_LOWER] = LAYOUT(
-        KC_GRV,  KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,                        KC_F6,   KC_F7,   KC_F8,   KC_F9,   KC_F10,  KC_F11,
-        KC_TILD, KC_EXLM, KC_AT,   KC_HASH, KC_DLR,  KC_PERC,                      KC_CIRC, KC_AMPR, KC_ASTR, KC_PIPE, KC_BSLS, KC_F12,
-        _______, _______, _______, _______, KC_PLUS, KC_MINS,                      KC_LCBR, KC_RCBR, KC_LPRN, KC_RPRN, _______, _______,
-        _______, _______, _______, _______, _______, KC_EQL,  _______,    _______, KC_LBRC, KC_RBRC, KC_LT,   KC_GT,   _______, _______,
-                          _______, _______, _______, KC_UNDS, _______,     HIGHER, _______, _______, _______, _______
+    [_SYM] = LAYOUT(
+        KC_F12,  KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,                        KC_F6,   KC_F7,   KC_F8,   KC_F9,   KC_F10,  KC_F11,
+        _______, _______, _______, _______, _______, _______,                      _______, _______, _______, KC_MINS, KC_EQL,  KC_LBRC,
+        KC_LALT, _______, _______, _______, _______, _______,                      _______, TH_LEFT, KC_DOWN, KC_UP,   TH_RGHT, KC_RBRC,
+        _______, _______, _______, _______, _______, _______, _______,    _______, _______, _______, _______, _______, KC_BSLS, KC_PIPE,
+                          _______, _______, _______, _______, _______,     OS_NUM, _______, _______, _______, _______
     ),
-    [_RAISE] = LAYOUT(
-        KC_GRV,  _______, _______, _______, _______, _______,                      _______, _______, _______, KC_MINS, KC_EQL,  _______,
-        KC_TILD, _______, _______, _______, _______, _______,                      _______, _______, KC_UP,   KC_LBRC, KC_RBRC, KC_BSLS,
-        _______, KC_CIRC, _______, _______, C(KC_F), C(KC_J),                      _______, KC_LEFT, KC_DOWN, KC_RGHT, KC_DLR,  KC_PIPE,
-        _______, _______, _______, _______, _______, _______, _______,    _______, _______, _______, _______, _______, _______, _______,
-                          _______, _______, _______, _______, ADJUST,     _______, _______, _______, _______, _______
-    ),
-    [_HIGHER] = LAYOUT(
+    [_NUM] = LAYOUT(
         _______, _______, _______, _______, _______, _______,                      _______, _______, _______, _______, _______, _______,
-        _______, KC_PPLS, KC_P7,   KC_P8,   KC_P9,   KC_PAST,                      _______, KC_HOME, KC_UP,   KC_END,  _______, _______,
-        _______, KC_PMNS, KC_P4,   KC_P5,   KC_P6,   KC_PSLS,                      _______, KC_LEFT, KC_DOWN, KC_RGHT, _______, _______,
+        _______, KC_PPLS, KC_P7,   KC_P8,   KC_P9,   KC_PAST,                      _______, _______, _______, _______, _______, _______,
+        _______, KC_PMNS, KC_P4,   KC_P5,   KC_P6,   KC_PSLS,                      _______, _______, _______, _______, _______, _______,
         _______, KC_P0,   KC_P1,   KC_P2,   KC_P3,   KC_PEQL, _______,    _______, _______, _______, _______, _______, _______, _______,
-                          _______, _______, _______, _______, XXXXXXX,    XXXXXXX, _______, _______, _______, _______
+                          _______, _______, C(KC_F), C(KC_G), ADJUST,     _______, _______, _______, _______, _______
     ),
     [_ADJUST] = LAYOUT(
         RESET,   _______, _______, _______, _______, _______,                      _______, _______, _______, _______, _______, _______,
@@ -114,23 +102,20 @@ static void print_status_narrow(void) {
             oled_write_P(PSTR("Q > C"), false);
             break;
         default:
-            oled_write_P(PSTR("Undef"), false);
+            oled_write_P(PSTR("UNDEF"), false);
     }
     oled_write_P(PSTR("\n\n"), false);
-    // Print current layer
 
+    // Print current layer
     int highest_layer = get_highest_layer(layer_state);
     (highest_layer == _COLEMAK || highest_layer == _QWERTY) ? oled_write_P(PSTR(">"), false) : oled_write_P(PSTR(" "), false);
     oled_write_ln_P(PSTR("BSE"), false);
 
-    (highest_layer == _RAISE) ? oled_write_P(PSTR(">"), false) : oled_write_P(PSTR(" "), false);
-    oled_write_ln_P(PSTR("RSE"), false);
+    (highest_layer == _SYM) ? oled_write_P(PSTR(">"), false) : oled_write_P(PSTR(" "), false);
+    oled_write_ln_P(PSTR("SYM"), false);
 
-    (highest_layer == _LOWER) ? oled_write_P(PSTR(">"), false) : oled_write_P(PSTR(" "), false);
-    oled_write_ln_P(PSTR("LWR"), false);
-
-    (highest_layer == _ADJUST) ? oled_write_P(PSTR(">"), false) : oled_write_P(PSTR(" "), false);
-    oled_write_ln_P(PSTR("ADJ"), false);
+    (highest_layer == _NUM) ? oled_write_P(PSTR(">"), false) : oled_write_P(PSTR(" "), false);
+    oled_write_ln_P(PSTR("NUM"), false);
 
     oled_write_P(PSTR("\n\n"), false);
     led_t led_usb_state = host_keyboard_led_state();
@@ -186,21 +171,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         case TOGOS:
             if (record->event.pressed) layer_invert(_WINDOWS);
             return false;
-        // case KC_ENT: // Enter as space when modifier is pressed
-        //     if (record->event.pressed && !record->tap.count) {
-        //         if (keyboard_report->mods) {
-        //             if (get_mods() & MOD_MASK_GUI)
-        //                 register_code(KC_LGUI);
-        //             else if (get_mods() & MOD_MASK_ALT)
-        //                 register_code(KC_LALT);
-
-        //             wait_ms(100);
-        //             tap_code16(KC_SPC);
-        //             clear_keyboard();
-        //             return false;
-        //         }
-        //     }
-        //     return true;
         case TH_BSPC:
             if (record->event.pressed && !record->tap.count) {
                 tap_code16(A(KC_BSPC));
@@ -219,17 +189,12 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                 return false;
             }
             return true;
-        case TH_UP:
+        case TH_ESC:
             if (record->event.pressed && !record->tap.count) {
-                tap_code(KC_PGUP);
+                register_code(KC_LALT);
                 return false;
             }
-            return true;
-        case TH_DOWN:
-            if (record->event.pressed && !record->tap.count) {
-                tap_code(KC_PGDN);
-                return false;
-            }
+            clear_keyboard();
             return true;
         case TH_LOCK:
             if (record->event.pressed && !record->tap.count) {
@@ -244,16 +209,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     }
     return true;
 }
-
-const key_override_t ctrl_esc_term         = ko_make_basic(MOD_MASK_CTRL, TH_LOCK, C(KC_GRV));
-const key_override_t gui_esc_cycle         = ko_make_basic(MOD_MASK_GUI, TH_LOCK, G(KC_GRV));
-const key_override_t shift_backspace_sleep = ko_make_basic(MOD_MASK_SHIFT, KC_BSPC, KC_SLEP);
-
-// This globally defines all key overrides to be used
-const key_override_t **key_overrides = (const key_override_t *[]){
-    &ctrl_esc_term, &gui_esc_cycle, &shift_backspace_sleep,
-    NULL // Null terminate the array of overrides!
-};
 
 #ifdef ENCODER_ENABLE
 
