@@ -9,7 +9,10 @@ enum alt_keycodes {
     DBG_MOU,               //DEBUG Toggle Mouse Prints
     MD_BOOT,               //Restart into bootloader after hold timeout
     TOGOS,
+    M_IG,                  // HITMAN Instant Interaction
 };
+
+#define TG_IG TG(3)
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [0] = LAYOUT_65_ansi_blocker(
@@ -23,15 +26,22 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         KC_GRV,  KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,   KC_F6,   KC_F7,   KC_F8,   KC_F9,   KC_F10,  KC_F11,  KC_F12,  RESET,   KC_MUTE,
         _______, RGB_SPD, RGB_VAI, RGB_SPI, RGB_HUI, RGB_SAI, _______, U_T_AUTO,U_T_AGCR,_______, KC_PSCR, KC_SLCK, KC_PAUS, _______, KC_END,
         _______, RGB_RMOD,RGB_VAD, RGB_MOD, RGB_HUD, RGB_SAD, _______, _______, _______, _______, _______, _______,          _______, KC_VOLU,
-        _______, RGB_TOG, _______, _______, _______, MD_BOOT, NK_TOGG, DBG_TOG, _______, _______, _______, _______,          KC_PGUP, KC_VOLD,
+        _______, RGB_TOG, _______, _______, _______, MD_BOOT, NK_TOGG, DBG_TOG, _______, _______, TG(3),   _______,          KC_PGUP, KC_VOLD,
         _______, _______, _______,                            _______,                            TOGOS,   _______, KC_HOME, KC_PGDN, KC_END
     ),
-    [2] = LAYOUT(
+    [2] = LAYOUT_65_ansi_blocker(
         _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
         _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
         _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,          _______, _______,
         _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,          _______, _______,
         _______, KC_LALT, KC_LGUI,                            _______,                            _______, _______, _______, _______, _______
+    ),
+    [3] = LAYOUT_65_ansi_blocker(
+        _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
+        _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
+        _______, _______, _______, _______, _______, M_IG,    _______, _______, _______, _______, _______, _______,          _______, _______,
+        _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,          _______, _______,
+        _______, _______, _______,                            _______,                            _______, _______, _______, _______, _______
     ),
 };
 
@@ -109,8 +119,21 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             }
             return false;
         case TOGOS:
-            if (record->event.pressed) layer_invert(2);
-                return false;
+            if (record->event.pressed)
+                layer_invert(2);
+            return false;
+        case M_IG:
+            if (record->event.pressed)
+            {
+                register_code(KC_I);
+                wait_ms(75);
+                register_code(KC_G);
+                wait_ms(15);
+                unregister_code(KC_I);
+                wait_ms(75);
+                unregister_code(KC_G);
+            }
+            return false;
         default:
             return true; //Process all other keycodes normally
     }
