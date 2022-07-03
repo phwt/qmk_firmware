@@ -1,20 +1,21 @@
 #include QMK_KEYBOARD_H
 
 enum alt_keycodes {
-    U_T_AUTO = SAFE_RANGE, //USB Extra Port Toggle Auto Detect / Always Active
-    U_T_AGCR,              //USB Toggle Automatic GCR control
-    DBG_TOG,               //DEBUG Toggle On / Off
-    DBG_MTRX,              //DEBUG Toggle Matrix Prints
-    DBG_KBD,               //DEBUG Toggle Keyboard Prints
-    DBG_MOU,               //DEBUG Toggle Mouse Prints
-    MD_BOOT,               //Restart into bootloader after hold timeout
-    TOGOS,
+    U_T_AUTO = SAFE_RANGE, // USB Extra Port Toggle Auto Detect / Always Active
+    U_T_AGCR,              // USB Toggle Automatic GCR control
+    DBG_TOG,               // DEBUG Toggle On / Off
+    DBG_MTRX,              // DEBUG Toggle Matrix Prints
+    DBG_KBD,               // DEBUG Toggle Keyboard Prints
+    DBG_MOU,               // DEBUG Toggle Mouse Prints
+    MD_BOOT,               // Restart into bootloader after hold timeout
+    TOGOS,                 // Swap GUI-Alt
     M_IG,                  // HITMAN Instant Interaction
 };
 
 #define TG_IG TG(3)
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
+    // clang-format off
     [0] = LAYOUT_65_ansi_blocker(
         KC_ESC,  KC_1,    KC_2,    KC_3,    KC_4,    KC_5,    KC_6,    KC_7,    KC_8,    KC_9,    KC_0,    KC_MINS, KC_EQL,  KC_BSPC, KC_DEL,
         KC_TAB,  KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,    KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,    KC_LBRC, KC_RBRC, KC_BSLS, KC_PGUP,
@@ -43,11 +44,12 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,          _______, _______,
         _______, _______, _______,                            _______,                            _______, _______, _______, _______, _______
     ),
+    // clang-format on
 };
 
-#define MODS_SHIFT  (get_mods() & MOD_BIT(KC_LSHIFT) || get_mods() & MOD_BIT(KC_RSHIFT))
-#define MODS_CTRL  (get_mods() & MOD_BIT(KC_LCTL) || get_mods() & MOD_BIT(KC_RCTRL))
-#define MODS_ALT  (get_mods() & MOD_BIT(KC_LALT) || get_mods() & MOD_BIT(KC_RALT))
+#define MODS_SHIFT (get_mods() & MOD_BIT(KC_LSHIFT) || get_mods() & MOD_BIT(KC_RSHIFT))
+#define MODS_CTRL (get_mods() & MOD_BIT(KC_LCTL) || get_mods() & MOD_BIT(KC_RCTRL))
+#define MODS_ALT (get_mods() & MOD_BIT(KC_LALT) || get_mods() & MOD_BIT(KC_RALT))
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     static uint32_t key_timer;
@@ -94,37 +96,31 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             return false;
         case RGB_TOG:
             if (record->event.pressed) {
-              switch (rgb_matrix_get_flags()) {
-                case LED_FLAG_ALL: {
-                    rgb_matrix_set_flags(LED_FLAG_KEYLIGHT | LED_FLAG_MODIFIER | LED_FLAG_INDICATOR);
-                    rgb_matrix_set_color_all(0, 0, 0);
-                  }
-                  break;
-                case (LED_FLAG_KEYLIGHT | LED_FLAG_MODIFIER | LED_FLAG_INDICATOR): {
-                    rgb_matrix_set_flags(LED_FLAG_UNDERGLOW);
-                    rgb_matrix_set_color_all(0, 0, 0);
-                  }
-                  break;
-                case LED_FLAG_UNDERGLOW: {
-                    rgb_matrix_set_flags(LED_FLAG_NONE);
-                    rgb_matrix_disable_noeeprom();
-                  }
-                  break;
-                default: {
-                    rgb_matrix_set_flags(LED_FLAG_ALL);
-                    rgb_matrix_enable_noeeprom();
-                  }
-                  break;
-              }
+                switch (rgb_matrix_get_flags()) {
+                    case LED_FLAG_ALL: {
+                        rgb_matrix_set_flags(LED_FLAG_KEYLIGHT | LED_FLAG_MODIFIER | LED_FLAG_INDICATOR);
+                        rgb_matrix_set_color_all(0, 0, 0);
+                    } break;
+                    case (LED_FLAG_KEYLIGHT | LED_FLAG_MODIFIER | LED_FLAG_INDICATOR): {
+                        rgb_matrix_set_flags(LED_FLAG_UNDERGLOW);
+                        rgb_matrix_set_color_all(0, 0, 0);
+                    } break;
+                    case LED_FLAG_UNDERGLOW: {
+                        rgb_matrix_set_flags(LED_FLAG_NONE);
+                        rgb_matrix_disable_noeeprom();
+                    } break;
+                    default: {
+                        rgb_matrix_set_flags(LED_FLAG_ALL);
+                        rgb_matrix_enable_noeeprom();
+                    } break;
+                }
             }
             return false;
         case TOGOS:
-            if (record->event.pressed)
-                layer_invert(2);
+            if (record->event.pressed) layer_invert(2);
             return false;
         case M_IG:
-            if (record->event.pressed)
-            {
+            if (record->event.pressed) {
                 register_code(KC_I);
                 wait_ms(75);
                 register_code(KC_G);
@@ -135,6 +131,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             }
             return false;
         default:
-            return true; //Process all other keycodes normally
+            return true; // Process all other keycodes normally
     }
 }
