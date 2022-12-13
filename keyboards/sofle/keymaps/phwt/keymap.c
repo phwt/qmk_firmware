@@ -39,7 +39,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         KC_TAB,  KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,                         KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,    KC_DEL,
         TH_ESC,  KC_A,    KC_S,    KC_D,    KC_F,    KC_G,                         KC_H,    KC_J,    KC_K,    KC_L,    KC_SCLN, KC_QUOT,
         KC_LSFT, KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,    KC_MPLY,    XXXXXXX, KC_N,    KC_M,    KC_COMM, KC_DOT,  KC_SLSH, KC_RSFT,
-                          KC_LCTL, KC_LALT, KC_LGUI, KC_SPC,  KC_LCTL,     OS_SYM, TH_ENT,  KC_RGUI, XXXXXXX, XXXXXXX
+                          KC_LCTL, KC_LALT, KC_LGUI, KC_SPC,  KC_LALT,     OS_SYM, TH_ENT,  KC_RGUI, XXXXXXX, XXXXXXX
     ),
     [_COLEMAK] = LAYOUT(
         _______, _______, _______, _______, _______, _______,                      _______, _______, _______, _______, _______, _______,
@@ -57,10 +57,10 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     ),
     [_SYM] = LAYOUT(
         KC_F12,  KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,                        KC_F6,   KC_F7,   KC_F8,   KC_F9,   KC_F10,  KC_F11,
-        _______, _______, _______, _______, _______, _______,                      _______, _______, _______, KC_MINS, KC_EQL,  KC_LBRC,
-        KC_LALT, _______, _______, _______, _______, _______,                      _______, _______, _______, _______, _______, KC_RBRC,
-        _______, _______, _______, _______, _______, _______, _______,    _______, _______, _______, _______, _______, KC_BSLS, KC_PIPE,
-                          _______, _______, _______, _______, _______,     OS_NUM, _______, _______, _______, _______
+        _______, _______, _______, _______, _______, _______,                      _______, _______, _______, _______, _______, _______,
+        KC_LALT, KC_LBRC, KC_RBRC, KC_LCBR, KC_RCBR, KC_PLUS,                      KC_UNDS, KC_LEFT, KC_UP,   KC_RGHT, KC_LBRC, KC_RBRC,
+        _______, _______, _______, KC_LPRN, KC_RPRN, KC_MINS, _______,    _______, KC_EQL,  _______, KC_DOWN, _______, KC_MINS, KC_EQL,
+                          _______, _______, _______, _______, _______,    _______, _______, _______, _______, _______
     ),
     [_NUM] = LAYOUT(
         _______, _______, _______, _______, _______, _______,                      _______, _______, _______, _______, _______, _______,
