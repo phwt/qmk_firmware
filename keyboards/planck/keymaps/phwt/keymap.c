@@ -23,7 +23,7 @@ enum layers {
     _ADJUST, // Toggle layouts and configurations
     _NUM,    // Numpad
     _ANSI,   // For use where only Colemak DH ANSI is available
-    _WIN,    // Windows (CTRL + WIN + ALT)
+    _MAC,    // macOS (CTRL + ALT + CMD)
     _WINE,   // Windows (WIN + CTRL + ALT)
 };
 enum keycodes {
@@ -36,7 +36,7 @@ enum keycodes {
 #define ADJUST MO(_ADJUST)
 #define NUM    MO(_NUM)
 #define ANSI   TG(_ANSI)
-#define WIN    TG(_WIN)
+#define MAC    TG(_MAC)
 #define WINE   TG(_WINE)
 #define TH_ENT LT(_RAISE, KC_ENT)
 
@@ -46,13 +46,13 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         KC_TAB,  KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,    KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,    KC_BSPC,
         KC_ESC,  KC_A,    KC_S,    KC_D,    KC_F,    KC_G,    KC_H,    KC_J,    KC_K,    KC_L,    KC_SCLN, KC_QUOT,
         KC_LSFT, KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,    KC_N,    KC_M,    KC_COMM, KC_DOT,  KC_SLSH, KC_RSFT,
-        KC_LCTL, M_BHREG, KC_LALT, KC_LGUI, KC_SPC,  LOWER,   LOWER,   TH_ENT,  KC_RGUI, M_LSNBC, KC_HOME, KC_END
+        KC_LCTL, M_BHREG, KC_LGUI, KC_LALT, KC_SPC,  LOWER,   LOWER,   TH_ENT,  KC_RGUI, M_LSNBC, KC_HOME, KC_END
     ),
     [_LOWER] = LAYOUT_planck_grid(
         KC_GRV,  KC_1,    KC_2,    KC_3,    KC_4,    KC_5,    KC_6,    KC_7,    KC_8,    KC_9,    KC_0,    KC_DEL,
-        _______, _______, _______, _______, KC_PLUS, KC_PIPE, KC_QUES, KC_UNDS, _______, _______, KC_LBRC, KC_RBRC,
-        _______, KC_MPRV, KC_MPLY, KC_MNXT, KC_MINS, KC_BSLS, KC_SLSH, KC_EQL,  _______, _______, KC_MINS, KC_EQL,
-        _______, _______, _______, _______, _______, _______, _______, ADJUST, _______, _______, _______, _______
+        _______, _______, _______, _______, KC_PLUS, KC_LPRN, KC_RPRN, KC_UNDS, KC_MINS, KC_EQL,  KC_LBRC, KC_RBRC,
+        _______, _______, _______, _______, KC_MINS, KC_LBRC, KC_RBRC, KC_EQL,  _______, _______, KC_PIPE, KC_BSLS,
+        _______, _______, _______, _______, _______, _______, _______, ADJUST,  _______, _______, _______, _______
     ),
     [_RAISE] = LAYOUT_planck_grid(
         KC_F12,  KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,   KC_F6,   KC_F7,   KC_F8,   KC_F9,   KC_F10,  KC_F11,
@@ -61,9 +61,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______
     ),
     [_ADJUST] = LAYOUT_planck_grid(
-        QK_BOOT, _______, WIN    , WINE,    _______, _______, _______, _______, _______, _______, _______, _______,
+        QK_BOOT, _______, MAC    , WINE,    _______, _______, _______, _______, _______, _______, _______, _______,
         _______, ANSI,    _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
-        _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
+        _______, KC_MPRV, KC_MPLY, KC_MNXT, _______, _______, _______, _______, _______, _______, _______, _______,
         UG_TOGG, AU_TOGG, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______
     ),
     [_NUM] = LAYOUT_planck_grid(
@@ -78,11 +78,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         _______, KC_B,    KC_Z,    KC_X,    KC_C,    KC_V,    _______, _______, _______, _______, _______, _______,
         _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______
     ),
-    [_WIN] = LAYOUT_planck_grid(
+    [_MAC] = LAYOUT_planck_grid(
         _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
         _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
         _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
-        KC_LCTL, _______, KC_LGUI, KC_LALT, _______, _______, _______, _______, _______, _______, _______, _______
+        KC_LCTL, _______, KC_LALT, KC_LGUI, _______, _______, _______, _______, _______, _______, _______, _______
     ),
     [_WINE] = LAYOUT_planck_grid(
         _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
